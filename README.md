@@ -1,7 +1,9 @@
 # Personal portfolio and website
+
 This is the repository for my personal website that I develop as a hobby.
 
 ### Stats & Technologies 🔭
+
 ![GitHub stats][github-stats]
 ![Lang stats][lang-stats-api]
 ![trophy][trophy-api]
@@ -13,4 +15,5 @@ This is the repository for my personal website that I develop as a hobby.
 [trophy-api]: https://github-profile-trophy.vercel.app/?username=jjaks&theme=gruvbox&no-bg=true&column=8&no-frame=true&row=3
 
 ### Contact 📫
+
 Feel free to visit my [website](https://jaagop.eu/) where you can see all the ways you can contact me.
