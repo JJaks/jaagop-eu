@@ -1,0 +1,145 @@
+/* Global styles for the application */
+
+/* Import fonts (example with Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* CSS Reset and base styles */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+}
+
+html {
+	/* Prevent font size inflation */
+	-moz-text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	color: #1a1a1a;
+	background-color: #ffffff;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 600;
+	line-height: 1.2;
+	margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+	margin-bottom: 1em;
+}
+
+/* Code styles */
+code, pre {
+	font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+code {
+	background-color: #f3f4f6;
+	padding: 0.125rem 0.25rem;
+	border-radius: 0.25rem;
+	font-size: 0.875em;
+}
+
+pre {
+	background-color: #f8f9fa;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	overflow-x: auto;
+	margin-bottom: 1rem;
+}
+
+pre code {
+	background: none;
+	padding: 0;
+	border-radius: 0;
+}
+
+/* Links */
+a {
+	color: #0066cc;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+a:hover {
+	color: #0052a3;
+	text-decoration: underline;
+}
+
+/* Form elements */
+input, textarea, select, button {
+	font: inherit;
+}
+
+button {
+	cursor: pointer;
+}
+
+/* Images and media */
+img, picture, video, canvas, svg {
+	display: block;
+	max-width: 100%;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #0a0a0a;
+		color: #e5e5e5;
+	}
+	
+	code {
+		background-color: #1f1f1f;
+		color: #e5e5e5;
+	}
+	
+	pre {
+		background-color: #1a1a1a;
+	}
+	
+	a {
+		color: #66b3ff;
+	}
+	
+	a:hover {
+		color: #4d9fff;
+	}
+}
+
+/* Utility classes */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
