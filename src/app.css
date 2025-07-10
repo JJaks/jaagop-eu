@@ -24,7 +24,7 @@ html {
 body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
-	font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+	font-family: var(--font-family-base);
 	color: #1a1a1a;
 	background-color: #ffffff;
 }
@@ -49,7 +49,7 @@ p {
 
 /* Code styles */
 code, pre {
-	font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+	font-family: var(--font-family-mono);
 }
 
 code {
