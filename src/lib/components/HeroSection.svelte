@@ -88,6 +88,7 @@
 		align-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
+		overflow: visible;
 	}
 
 	.hero-navigationbar {
@@ -97,6 +98,9 @@
 		justify-content: center;
 		align-items: center;
 		font-family: var(--font-family-mono);
+		position: relative;
+		z-index: 10;
+		overflow: visible;
 	}
 
 	.nav-expandable {
@@ -111,6 +115,7 @@
 		position: relative;
 		height: 1.5rem;
 		min-width: fit-content;
+		z-index: 10;
 	}
 
 	.nav-start {
@@ -143,6 +148,7 @@
 		overflow: hidden;
 		white-space: nowrap;
 		z-index: 2;
+		position: relative;
 	}
 
 	.nav-links a {
@@ -161,7 +167,7 @@
 	}
 
 	.nav-expandable:hover .nav-links {
-		max-width: 30rem;
+		max-width: 40rem;
 		opacity: 1;
 	}
 

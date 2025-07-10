@@ -45,14 +45,6 @@
 		color: var(--color-text);
 	}
 
-	.projects-subtitle {
-		font-size: 1.1rem;
-		color: var(--color-text-muted);
-		max-width: 600px;
-		margin: 0 auto;
-		line-height: 1.6;
-	}
-
 	.projects-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -148,10 +140,6 @@
 
 		.projects-header h3 {
 			font-size: 1.5rem;
-		}
-
-		.projects-subtitle {
-			font-size: 1rem;
 		}
 
 		.projects-cta {

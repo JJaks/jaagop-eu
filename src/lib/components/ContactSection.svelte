@@ -99,14 +99,6 @@
 		color: var(--color-text);
 	}
 
-	.contact-intro {
-		font-size: 1.1rem;
-		line-height: 1.6;
-		color: var(--color-text-paragraph);
-		max-width: 600px;
-		margin: 0 auto;
-	}
-
 	.contact-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
