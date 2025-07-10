@@ -18,26 +18,32 @@ This project uses **Calendar Versioning** following the `YYYY.M.D[.patch]` forma
 ## Available Scripts
 
 ### Set version to today's date
+
 ```bash
 pnpm run version:today
 ```
 
 ### Increment patch for today
+
 ```bash
 pnpm run version:patch
 ```
+
 If today is 2025.7.10 and current version is:
+
 - `2025.7.9` → becomes `2025.7.10`
 - `2025.7.10` → becomes `2025.7.10.1`
 - `2025.7.10.1` → becomes `2025.7.10.2`
 
 ### Release builds
+
 ```bash
 pnpm run release       # Set to today + build
 pnpm run release:patch # Increment patch + build
 ```
 
 ### Version help
+
 ```bash
 pnpm run version:help
 ```
@@ -71,18 +77,21 @@ pnpm build
 ## Development Workflow
 
 ### Daily releases
+
 ```bash
 pnpm run version:today  # Update to today's date
 pnpm run build         # Build with new version
 ```
 
 ### Multiple releases same day
+
 ```bash
 pnpm run version:patch  # Increment patch number
 pnpm run build         # Build with new version
 ```
 
 ### Quick release
+
 ```bash
 pnpm run release       # Version + build in one command
 ```

@@ -17,49 +17,49 @@ const __dirname = dirname(__filename);
 const packageJsonPath = join(__dirname, '..', 'package.json');
 
 function getTodayVersion() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1; // getMonth() returns 0-11
-    const day = now.getDate();
-    return `${year}.${month}.${day}`;
+	const now = new Date();
+	const year = now.getFullYear();
+	const month = now.getMonth() + 1; // getMonth() returns 0-11
+	const day = now.getDate();
+	return `${year}.${month}.${day}`;
 }
 
 function getCurrentVersion() {
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-    return packageJson.version;
+	const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+	return packageJson.version;
 }
 
 function setVersion(newVersion) {
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-    packageJson.version = newVersion;
-    writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, '\t') + '\n');
-    console.log(`✅ Version updated to: ${newVersion}`);
+	const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+	packageJson.version = newVersion;
+	writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, '\t') + '\n');
+	console.log(`✅ Version updated to: ${newVersion}`);
 }
 
 function incrementPatchForToday() {
-    const today = getTodayVersion();
-    const current = getCurrentVersion();
+	const today = getTodayVersion();
+	const current = getCurrentVersion();
 
-    // Check if current version is already today's date
-    if (current.startsWith(today)) {
-        // Extract patch number if it exists
-        const parts = current.split('.');
-        if (parts.length === 4) {
-            // Format: YYYY.M.D.patch
-            const patch = parseInt(parts[3]) + 1;
-            return `${today}.${patch}`;
-        } else {
-            // Format: YYYY.M.D -> YYYY.M.D.1
-            return `${today}.1`;
-        }
-    } else {
-        // Different date, start fresh
-        return today;
-    }
+	// Check if current version is already today's date
+	if (current.startsWith(today)) {
+		// Extract patch number if it exists
+		const parts = current.split('.');
+		if (parts.length === 4) {
+			// Format: YYYY.M.D.patch
+			const patch = parseInt(parts[3]) + 1;
+			return `${today}.${patch}`;
+		} else {
+			// Format: YYYY.M.D -> YYYY.M.D.1
+			return `${today}.1`;
+		}
+	} else {
+		// Different date, start fresh
+		return today;
+	}
 }
 
 function showHelp() {
-    console.log(`
+	console.log(`
 📅 Calendar Version Manager
 
 Usage:
@@ -81,18 +81,18 @@ Examples:
 const command = process.argv[2];
 
 switch (command) {
-    case 'today':
-        setVersion(getTodayVersion());
-        break;
-    case 'patch':
-        setVersion(incrementPatchForToday());
-        break;
-    case '--help':
-    case '-h':
-    case 'help':
-        showHelp();
-        break;
-    default:
-        console.log('❌ Unknown command. Use --help for usage information.');
-        process.exit(1);
+	case 'today':
+		setVersion(getTodayVersion());
+		break;
+	case 'patch':
+		setVersion(incrementPatchForToday());
+		break;
+	case '--help':
+	case '-h':
+	case 'help':
+		showHelp();
+		break;
+	default:
+		console.log('❌ Unknown command. Use --help for usage information.');
+		process.exit(1);
 }

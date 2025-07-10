@@ -6,10 +6,7 @@ import { defineConfig } from 'vite';
 const packageJson = await import('./package.json', { with: { type: 'json' } });
 
 export default defineConfig({
-	plugins: [
-		enhancedImages(),
-		sveltekit()
-	],
+	plugins: [enhancedImages(), sveltekit()],
 	define: {
 		__APP_VERSION__: JSON.stringify(packageJson.default.version)
 	}

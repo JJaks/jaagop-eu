@@ -1,9 +1,9 @@
 <script>
-    import HeroSection from "$lib/components/HeroSection.svelte";
-    import WorkExperience from "$lib/components/WorkExperience.svelte";
-    import ProjectsSection from "$lib/components/ProjectsSection.svelte";
-    import ContactSection from "$lib/components/ContactSection.svelte";
-    import SiteFooter from "$lib/components/SiteFooter.svelte";
+	import HeroSection from '$lib/components/HeroSection.svelte';
+	import WorkExperience from '$lib/components/WorkExperience.svelte';
+	import ProjectsSection from '$lib/components/ProjectsSection.svelte';
+	import ContactSection from '$lib/components/ContactSection.svelte';
+	import SiteFooter from '$lib/components/SiteFooter.svelte';
 </script>
 
 <HeroSection />
@@ -13,7 +13,10 @@
 		<!-- About Section -->
 		<section class="about-section" id="about">
 			<h3>About</h3>
-			<p class="lead">I'm a senior software engineer passionate about creating elegant solutions to complex problems. With expertise in modern web technologies and a focus on clean, maintainable code.</p>
+			<p class="lead">
+				I'm a senior software engineer passionate about creating elegant solutions to complex
+				problems. With expertise in modern web technologies and a focus on clean, maintainable code.
+			</p>
 		</section>
 
 		<!-- Skills Section -->
@@ -156,7 +159,9 @@
 		background: rgba(255, 255, 255, 0.05);
 		backdrop-filter: blur(10px);
 		border-radius: var(--radius-md);
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease;
 	}
 
 	.skill-item:hover {
