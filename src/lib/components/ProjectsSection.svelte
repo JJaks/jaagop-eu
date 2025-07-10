@@ -12,7 +12,7 @@
 
 	<div class="projects-content">
 		<div class="projects-grid">
-			{#each featuredProjects as project}
+			{#each featuredProjects as project (project.id)}
 				<ProjectCard {project} compact={true} />
 			{/each}
 		</div>

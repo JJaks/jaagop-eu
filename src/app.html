@@ -2,7 +2,43 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="Jaagop Janson's personal website showcasing his projects, skills, and experiences as a Senior Software Developer."
+		/>
+		<meta
+			name="keywords"
+			content="Jaagop Janson, software developer, web development, TypeScript, React, Kotlin, Swift, portfolio"
+		/>
+		<meta name="author" content="Jaagop Janson" />
+		<meta name="robots" content="index, follow" />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://jaagop.eu/" />
+		<meta property="og:title" content="Jaagop Janson - Senior Software Developer" />
+		<meta
+			property="og:description"
+			content="Senior Software Developer specializing in web applications, mobile development, and modern tech stacks."
+		/>
+		<meta property="og:image" content="https://jaagop.eu/og-image.jpg" />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="https://jaagop.eu/" />
+		<meta property="twitter:title" content="Jaagop Janson - Senior Software Developer" />
+		<meta
+			property="twitter:description"
+			content="Senior Software Developer specializing in web applications, mobile development, and modern tech stacks."
+		/>
+		<meta property="twitter:image" content="https://jaagop.eu/og-image.jpg" />
+
+		<!-- Favicons -->
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<link rel="apple-touch-icon" href="%sveltekit.assets%/favicon.png" />
+
+		<!-- Fonts -->
 		<link rel="stylesheet" href="https://fonts.cdnfonts.com/css/jetbrains-mono" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +46,28 @@
 			href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 			rel="stylesheet"
 		/>
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "Person",
+				"name": "Jaagop Janson",
+				"jobTitle": "Senior Software Developer",
+				"url": "https://jaagop.eu",
+				"sameAs": ["https://www.linkedin.com/in/jaagop-janson/", "https://github.com/JJaks"],
+				"knowsAbout": [
+					"TypeScript",
+					"React",
+					"Kotlin",
+					"Swift",
+					"React Native",
+					"Web Development",
+					"Mobile Development"
+				]
+			}
+		</script>
+
 		<title>Jaagop Janson</title>
 		%sveltekit.head%
 	</head>

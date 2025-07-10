@@ -8,4 +8,5 @@
 	let { name, size = 24, class: className = '', 'stroke-width': strokeWidth = 2 }: Props = $props();
 </script>
 
+<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 {@html icons[name]({ size, class: className, 'stroke-width': strokeWidth })}

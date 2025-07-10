@@ -135,7 +135,7 @@
 			<div class="timeline-beam" bind:this={timelineBeam}></div>
 		</div>
 		<div class="experience-items">
-			{#each experiences as experience, index}
+			{#each experiences as experience, index (experience.title + experience.company)}
 				<div class="experience-item" bind:this={experienceItems[index]} data-experience={index}>
 					<div class="experience-header" role="button" tabindex="0">
 						<div class="experience-title-group">
@@ -183,7 +183,7 @@
 						<p>{experience.description}</p>
 						{#if experience.tags && experience.tags.length > 0}
 							<div class="experience-tags">
-								{#each experience.tags as tag}
+								{#each experience.tags as tag (tag)}
 									<span class="tag">{tag}</span>
 								{/each}
 							</div>

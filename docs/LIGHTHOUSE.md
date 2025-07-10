@@ -49,21 +49,21 @@ Main Lighthouse configuration:
 
 ```json
 {
-  "ci": {
-    "collect": {
-      "numberOfRuns": 3,
-      "startServerCommand": "npm run preview",
-      "url": ["http://localhost:4173", "http://localhost:4173/projects"]
-    },
-    "assert": {
-      "assertions": {
-        "categories:performance": ["error", {"minScore": 0.7}],
-        "categories:accessibility": ["error", {"minScore": 0.9}],
-        "categories:best-practices": ["error", {"minScore": 0.9}],
-        "categories:seo": ["error", {"minScore": 0.9}]
-      }
-    }
-  }
+	"ci": {
+		"collect": {
+			"numberOfRuns": 3,
+			"startServerCommand": "npm run preview",
+			"url": ["http://localhost:4173", "http://localhost:4173/projects"]
+		},
+		"assert": {
+			"assertions": {
+				"categories:performance": ["error", { "minScore": 0.7 }],
+				"categories:accessibility": ["error", { "minScore": 0.9 }],
+				"categories:best-practices": ["error", { "minScore": 0.9 }],
+				"categories:seo": ["error", { "minScore": 0.9 }]
+			}
+		}
+	}
 }
 ```
 
@@ -73,21 +73,21 @@ Performance budgets to prevent regressions:
 
 ```json
 [
-  {
-    "path": "/*",
-    "timings": [
-      {"metric": "first-contentful-paint", "budget": 2000},
-      {"metric": "largest-contentful-paint", "budget": 2500},
-      {"metric": "cumulative-layout-shift", "budget": 100},
-      {"metric": "total-blocking-time", "budget": 300}
-    ],
-    "resourceSizes": [
-      {"resourceType": "script", "budget": 200},
-      {"resourceType": "image", "budget": 500},
-      {"resourceType": "stylesheet", "budget": 50},
-      {"resourceType": "total", "budget": 1000}
-    ]
-  }
+	{
+		"path": "/*",
+		"timings": [
+			{ "metric": "first-contentful-paint", "budget": 2000 },
+			{ "metric": "largest-contentful-paint", "budget": 2500 },
+			{ "metric": "cumulative-layout-shift", "budget": 100 },
+			{ "metric": "total-blocking-time", "budget": 300 }
+		],
+		"resourceSizes": [
+			{ "resourceType": "script", "budget": 200 },
+			{ "resourceType": "image", "budget": 500 },
+			{ "resourceType": "stylesheet", "budget": 50 },
+			{ "resourceType": "total", "budget": 1000 }
+		]
+	}
 ]
 ```
 
@@ -146,14 +146,14 @@ Edit `lighthouse-budget.json` to adjust performance budgets:
 
 ```json
 {
-  "path": "/*",
-  "timings": [
-    {"metric": "first-contentful-paint", "budget": 1500}, // Stricter
-    {"metric": "largest-contentful-paint", "budget": 2000}  // Stricter
-  ],
-  "resourceSizes": [
-    {"resourceType": "total", "budget": 800} // Smaller total size
-  ]
+	"path": "/*",
+	"timings": [
+		{ "metric": "first-contentful-paint", "budget": 1500 }, // Stricter
+		{ "metric": "largest-contentful-paint", "budget": 2000 } // Stricter
+	],
+	"resourceSizes": [
+		{ "resourceType": "total", "budget": 800 } // Smaller total size
+	]
 }
 ```
 
@@ -163,15 +163,15 @@ To test additional pages, update `lighthouserc.json`:
 
 ```json
 {
-  "ci": {
-    "collect": {
-      "url": [
-        "http://localhost:4173",
-        "http://localhost:4173/projects",
-        "http://localhost:4173/new-page" // Add new URLs here
-      ]
-    }
-  }
+	"ci": {
+		"collect": {
+			"url": [
+				"http://localhost:4173",
+				"http://localhost:4173/projects",
+				"http://localhost:4173/new-page" // Add new URLs here
+			]
+		}
+	}
 }
 ```
 

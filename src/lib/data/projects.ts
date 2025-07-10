@@ -10,10 +10,11 @@ import JausteenusImage from '$lib/assets/images/projects/jausteenus.webp';
 import GoToAndPlayImage from '$lib/assets/images/projects/gotoandplay.webp';
 
 export interface Project {
+	id: string;
 	title: string;
 	description: string;
 	shortDescription?: string;
-	image?: unknown;
+	image?: string | object; // Allow string paths or imported image objects
 	technologies: string[];
 	liveUrl?: string;
 	githubUrl?: string;
@@ -28,6 +29,7 @@ export interface Project {
 
 export const projects: Project[] = [
 	{
+		id: 'mactabeauty',
 		title: 'MactaBeauty',
 		description:
 			'Magento 2 E-commerce site of one of the biggest beauty related products selling company in Estonia. Magento 2 Frontend and custom modules & plugins.',
@@ -45,6 +47,7 @@ export const projects: Project[] = [
 		year: '2022'
 	},
 	{
+		id: 'acty-career',
 		title: 'Acty Career Page',
 		description:
 			"Customized Acty's Career page that feautres custom open job positions and forms. Made in Wordpress using Divi builder. Simple but very elegant.",
@@ -62,6 +65,7 @@ export const projects: Project[] = [
 		year: '2021'
 	},
 	{
+		id: 'deleit',
 		title: 'Deleit',
 		description:
 			'Construction company website that features a portfolio, services, etc. Made in Wordpress using Elementor, a very simple page with full page cache.',
@@ -79,6 +83,7 @@ export const projects: Project[] = [
 		year: '2021'
 	},
 	{
+		id: 'url-shortening',
 		title: 'URL Shortening',
 		description:
 			'This was a Frontend Mentor challenge to create a URL Shortening API landing page. Semantic HTML, pure CSS & pure Javascript. Made with love.',
@@ -92,6 +97,7 @@ export const projects: Project[] = [
 		year: '2020'
 	},
 	{
+		id: 'salome-tk',
 		title: 'Salome TK',
 		description:
 			'One of the first big projects I have made. An Extensive order center written in TypeScript using the Aurelia webpack, custom back and front-end.',
@@ -109,6 +115,7 @@ export const projects: Project[] = [
 		year: '2021'
 	},
 	{
+		id: 'teliatv',
 		title: 'TeliaTV',
 		description:
 			'The leading TV service in Estonia, I have worked on the frontend and backend of the web, mobile and TV applications. The web application is written in React, the mobile application is written in React Native and the TV application is written in Kotlin.',
@@ -135,6 +142,7 @@ export const projects: Project[] = [
 		year: '2025'
 	},
 	{
+		id: 'zentria',
 		title: 'Zentria',
 		description:
 			'Custom site made using the NextJS framework, scss, Javascript. Implementing HTML5 UP design. Prototype.',
@@ -149,6 +157,7 @@ export const projects: Project[] = [
 		year: '2020'
 	},
 	{
+		id: 'kapitaligrupp',
 		title: 'KapitaliGrupp',
 		description:
 			'Real estate site that uses REST API to automatically get new listings from kv.ee, Wordpress, Elementor, custom functions made from scratch.',
@@ -167,6 +176,7 @@ export const projects: Project[] = [
 		year: '2021'
 	},
 	{
+		id: 'jausteenus',
 		title: 'Jausteenus',
 		description:
 			"Simple printing labels firm's site that was made using Wordpress, Elementor and shows off many custom functions made from scratch.",
@@ -184,6 +194,7 @@ export const projects: Project[] = [
 		year: '2020'
 	},
 	{
+		id: 'gotoandplay',
 		title: 'GoToAndPlay',
 		description:
 			'This was a homework type of assignment to apply for a job at gotoAndPlay. Made with Next.JS, TypeScript, HMTL5, CSS, tsparticles and magic.',

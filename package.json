@@ -51,8 +51,8 @@
 	},
 	"dependencies": {
 		"clsx": "^2.1.1",
+		"marked": "^16.0.0",
 		"svelte-motion": "^0.12.2",
 		"tailwind-merge": "^3.3.1"
 	}
-	
 }

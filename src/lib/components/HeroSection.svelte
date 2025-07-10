@@ -1,5 +1,15 @@
 <script>
 	import BackgroundBeams from './ui/BackgroundBeams/BackgroundBeams.svelte';
+
+	let mobileMenuOpen = false;
+
+	function toggleMobileMenu() {
+		mobileMenuOpen = !mobileMenuOpen;
+	}
+
+	function closeMobileMenu() {
+		mobileMenuOpen = false;
+	}
 </script>
 
 <header class="hero-section">
@@ -9,7 +19,8 @@
 
 	<div class="hero-content">
 		<div class="hero-navigationbar">
-			<div class="nav-expandable">
+			<!-- Desktop Navigation -->
+			<div class="nav-expandable desktop-nav">
 				<span class="nav-start">&lt;Jaagop</span>
 				<div class="nav-links">
 					<a href="#about">About</a>
@@ -19,6 +30,28 @@
 					<a href="/blog">Blog</a>
 				</div>
 				<span class="nav-end">/&gt;</span>
+			</div>
+
+			<!-- Mobile Navigation -->
+			<div class="mobile-nav">
+				<button
+					class="nav-brand-button"
+					on:click={toggleMobileMenu}
+					aria-label="Toggle navigation menu"
+					aria-expanded={mobileMenuOpen}
+				>
+					&lt;Jaagop{mobileMenuOpen ? ' ×' : ''}/&gt;
+				</button>
+
+				{#if mobileMenuOpen}
+					<nav class="mobile-menu">
+						<a href="#about" on:click={closeMobileMenu}>About</a>
+						<a href="#experience" on:click={closeMobileMenu}>Experience</a>
+						<a href="#projects" on:click={closeMobileMenu}>Projects</a>
+						<a href="#contact" on:click={closeMobileMenu}>Contact</a>
+						<a href="/blog" on:click={closeMobileMenu}>Blog</a>
+					</nav>
+				{/if}
 			</div>
 		</div>
 		<div class="hero-text">
@@ -351,25 +384,106 @@
 			padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl);
 		}
 
-		.nav-expandable {
-			font-size: 1rem;
+		/* Hide desktop nav on mobile */
+		.desktop-nav {
+			display: none;
 		}
 
-		.nav-links {
-			gap: var(--spacing-xs);
+		/* Show mobile nav */
+		.mobile-nav {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+			position: relative;
 		}
 
-		.nav-expandable:hover .nav-links {
-			max-width: 15rem;
+		.nav-brand-button {
+			background: none;
+			border: none;
+			color: #60a5fa;
+			font-family: var(--font-family-mono);
+			font-size: 1.1rem;
+			font-weight: 600;
+			cursor: pointer;
+			padding: var(--spacing-sm);
+			border-radius: var(--radius-sm);
+			transition: all 0.3s ease;
+			min-height: 44px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 
-		.nav-links a {
-			padding: var(--spacing-xs);
-			font-size: 0.9rem;
+		.nav-brand-button:hover {
+			background: rgba(255, 255, 255, 0.1);
+			color: #93c5fd;
+			transform: translateY(-1px);
+		}
+
+		.mobile-menu {
+			position: absolute;
+			top: calc(100% + var(--spacing-sm));
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(0, 0, 0, 0.95);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			border-radius: var(--radius-md);
+			padding: var(--spacing-md);
+			display: flex;
+			flex-direction: column;
+			gap: var(--spacing-sm);
+			min-width: 200px;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+			z-index: 20;
+			animation: mobileMenuFadeIn 0.2s ease-out;
+		}
+
+		@keyframes mobileMenuFadeIn {
+			from {
+				opacity: 0;
+				transform: translateX(-50%) translateY(-10px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(-50%) translateY(0);
+			}
+		}
+
+		.mobile-menu a {
+			color: rgba(255, 255, 255, 0.9);
+			text-decoration: none;
+			padding: var(--spacing-md) var(--spacing-lg);
+			border-radius: var(--radius-sm);
+			transition: all 0.2s ease;
+			font-weight: 400;
+			text-align: center;
+			min-height: 44px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.mobile-menu a:hover {
+			color: white;
+			background: rgba(255, 255, 255, 0.1);
+			transform: translateY(-1px);
 		}
 
 		.scroll-text {
 			font-size: 0.8rem;
+		}
+	}
+
+	/* Hide mobile nav on desktop */
+	@media (min-width: 769px) {
+		.mobile-nav {
+			display: none;
+		}
+
+		.desktop-nav {
+			display: flex;
 		}
 	}
 </style>

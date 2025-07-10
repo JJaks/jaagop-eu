@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Project } from '$lib/data/projects';
+	import Button from '$lib/components/ui/Button.svelte';
 
 	export let project: Project;
 	export let compact = false; // For main page preview vs full projects page
@@ -8,6 +9,7 @@
 <article class="project-card" class:compact>
 	{#if project.image}
 		<div class="project-image">
+			<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
 			<enhanced:img src={project.image as any} alt={project.title} />
 			<div class="project-overlay">
 				<div class="project-links">
@@ -111,7 +113,7 @@
 		</p>
 
 		<div class="project-technologies">
-			{#each project.technologies as tech}
+			{#each project.technologies as tech (tech)}
 				<span class="tech-tag">{tech}</span>
 			{/each}
 		</div>
@@ -119,24 +121,10 @@
 		{#if !compact}
 			<div class="project-actions">
 				{#if project.liveUrl}
-					<a
-						href={project.liveUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="btn btn-primary"
-					>
-						View Live
-					</a>
+					<Button href={project.liveUrl} variant="solid">View Live</Button>
 				{/if}
 				{#if project.githubUrl}
-					<a
-						href={project.githubUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="btn btn-outline"
-					>
-						View Code
-					</a>
+					<Button href={project.githubUrl} variant="outline">View Code</Button>
 				{/if}
 			</div>
 		{/if}
@@ -359,43 +347,6 @@
 		margin-top: auto;
 	}
 
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: var(--spacing-sm) var(--spacing-md);
-		border-radius: var(--radius-sm);
-		text-decoration: none;
-		font-weight: 500;
-		font-size: 0.9rem;
-		transition: all 0.2s ease;
-		border: 2px solid transparent;
-	}
-
-	.btn-primary {
-		background: var(--color-primary);
-		color: white;
-		border-color: var(--color-primary);
-	}
-
-	.btn-primary:hover {
-		background: var(--color-primary-hover);
-		border-color: var(--color-primary-hover);
-		transform: translateY(-1px);
-	}
-
-	.btn-outline {
-		background: transparent;
-		color: var(--color-primary);
-		border-color: var(--color-primary);
-	}
-
-	.btn-outline:hover {
-		background: var(--color-primary);
-		color: white;
-		transform: translateY(-1px);
-	}
-
 	/* Mobile responsiveness */
 	@media (max-width: 768px) {
 		.project-content {
@@ -408,10 +359,6 @@
 
 		.project-actions {
 			flex-direction: column;
-		}
-
-		.btn {
-			justify-content: center;
 		}
 	}
 </style>

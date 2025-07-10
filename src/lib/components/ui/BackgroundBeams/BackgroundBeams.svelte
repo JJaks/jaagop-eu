@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/cn';
-	import { M, Motion } from 'svelte-motion';
+	import { Motion } from 'svelte-motion';
 
 	export let className: string | undefined = undefined;
 
 	// Create a wrapper action for SVG elements
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function svgMotion(node: Element, motionAction: any) {
 		return motionAction(node);
 	}
@@ -96,7 +97,8 @@
 			</Motion>
 		{/each}
 		<defs>
-			{#each paths as path, index (`gradient-${index}`)}
+			<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
+			{#each paths as _, index (`gradient-${index}`)}
 				<Motion
 					isSVG={true}
 					let:motion

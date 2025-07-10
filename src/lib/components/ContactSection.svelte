@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="contact-grid">
-		{#each contactMethods as method}
+		{#each contactMethods as method (method.name)}
 			<a
 				href={method.href}
 				class="contact-card"

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 	import { getAllProjects, type Project } from '$lib/data/projects';
@@ -21,13 +22,12 @@
 	};
 </script>
 
-<svelte:head>
-	<title>Projects - Jaagop Janson</title>
-	<meta
-		name="description"
-		content="Explore my portfolio of web development projects, featuring modern technologies and innovative solutions."
-	/>
-</svelte:head>
+<SEO
+	title="Projects - Jaagop Janson"
+	description="Explore my portfolio of web development projects featuring modern technologies like SvelteKit, React, TypeScript, and innovative solutions for real-world problems."
+	url="/projects"
+	keywords="projects, portfolio, web development, SvelteKit, React, TypeScript, JavaScript, mobile apps, full-stack development"
+/>
 
 <main class="projects-page">
 	<div class="container">

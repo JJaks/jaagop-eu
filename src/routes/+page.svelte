@@ -4,7 +4,16 @@
 	import ProjectsSection from '$lib/components/ProjectsSection.svelte';
 	import ContactSection from '$lib/components/ContactSection.svelte';
 	import SiteFooter from '$lib/components/SiteFooter.svelte';
+	import BlogSection from '$lib/components/BlogSection.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 </script>
+
+<SEO
+	title="Jaagop Janson - Senior Software Developer & Web Developer"
+	description="Senior Software Developer from Estonia specializing in modern web applications, mobile development, and full-stack solutions. Experience with TypeScript, React, Kotlin, Swift, and more."
+	url="/"
+	keywords="Jaagop Janson, senior software developer, web developer, Estonia, TypeScript, React, Kotlin, Swift, full-stack, mobile development"
+/>
 
 <HeroSection />
 
@@ -41,6 +50,8 @@
 		<WorkExperience />
 
 		<ProjectsSection />
+
+		<BlogSection />
 
 		<ContactSection />
 	</div>
