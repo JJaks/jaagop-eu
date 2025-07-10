@@ -3,6 +3,9 @@
 	"private": true,
 	"version": "2025.7.10",
 	"type": "module",
+	"engines": {
+		"node": ">=22.0.0"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -51,4 +54,5 @@
 		"svelte-motion": "^0.12.2",
 		"tailwind-merge": "^3.3.1"
 	}
+	
 }
