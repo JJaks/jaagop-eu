@@ -21,11 +21,6 @@
 	margin-bottom: var(--spacing-sm);
 }
 
-.hero-subtitle {
-	font-weight: 500;
-	color: var(--color-text-muted);
-}
-
 /* Card components */
 .card {
 	background-color: var(--color-surface);
