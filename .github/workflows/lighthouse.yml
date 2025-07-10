@@ -1,0 +1,176 @@
+name: Lighthouse Performance Testing
+
+on:
+  # Run on pushes to main branch
+  push:
+    branches: [main]
+
+  # Run on pull requests
+  pull_request:
+    branches: [main]
+
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'URL to test (defaults to production site)'
+        required: false
+        type: string
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build site
+        run: pnpm run build
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.12.x
+
+      # For manual runs with custom URL
+      - name: Run Lighthouse CI (Custom URL)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.url
+        run: |
+          lhci autorun --upload.target=temporary-public-storage
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+          LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
+          LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
+          LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          LHCI_SERVER_URL: ${{ github.event.inputs.url }}
+
+      # For automatic runs, we'll wait for deployment and test the live site
+      - name: Wait for deployment (Vercel/Netlify)
+        if: github.event_name != 'workflow_dispatch'
+        uses: UnlyEd/github-action-await-vercel@v1.2.36
+        id: await-vercel
+        with:
+          deployment-url: ''
+          timeout: 300 # 5 minutes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        continue-on-error: true
+
+      # Fallback: test against preview URL pattern (works for most platforms)
+      - name: Run Lighthouse CI (Auto-detected URL)
+        if: github.event_name != 'workflow_dispatch'
+        run: |
+          # Try to determine the deployment URL
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            # For PRs, construct preview URL (adjust domain as needed)
+            DEPLOY_URL="https://jaagop-eu-git-${{ github.head_ref }}-jaagop.vercel.app"
+          else
+            # For main branch, use production URL (adjust as needed)
+            DEPLOY_URL="https://jaagop.eu"
+          fi
+
+          echo "Testing URL: $DEPLOY_URL"
+
+          # Wait for URL to be accessible
+          echo "Waiting for deployment to be ready..."
+          timeout 300 bash -c 'until curl -f -s "$0" > /dev/null; do sleep 10; echo "Waiting..."; done' "$DEPLOY_URL" || true
+
+          # Run Lighthouse CI
+          lhci autorun --upload.target=temporary-public-storage --collect.url="$DEPLOY_URL"
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+          LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
+          LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
+          LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+
+      # Upload Lighthouse reports as artifacts
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports-${{ github.sha }}
+          path: |
+            .lighthouseci/
+            lhci_reports/
+          retention-days: 30
+
+      # Comment on PR with results (if it's a PR)
+      - name: Comment PR with Lighthouse results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            // Try to find the Lighthouse summary
+            const lhciDir = '.lighthouseci';
+            let summaryContent = '';
+
+            try {
+              if (fs.existsSync(lhciDir)) {
+                const files = fs.readdirSync(lhciDir);
+                const manifestFile = files.find(f => f.includes('manifest.json'));
+                
+                if (manifestFile) {
+                  const manifest = JSON.parse(fs.readFileSync(path.join(lhciDir, manifestFile), 'utf8'));
+                  const reports = manifest.filter(item => item.url && item.summary);
+                  
+                  if (reports.length > 0) {
+                    const report = reports[0];
+                    const summary = report.summary;
+                    
+                    summaryContent = `## 🚀 Lighthouse Performance Report
+
+            **URL:** ${report.url}
+
+            | Category | Score |
+            |----------|--------|
+            | 🔥 Performance | ${Math.round(summary.performance * 100)}/100 |
+            | ♿ Accessibility | ${Math.round(summary.accessibility * 100)}/100 |
+            | 💡 Best Practices | ${Math.round(summary['best-practices'] * 100)}/100 |
+            | 🔍 SEO | ${Math.round(summary.seo * 100)}/100 |
+            | ⚡ PWA | ${summary.pwa ? Math.round(summary.pwa * 100) : 'N/A'}/100 |
+
+            > Generated for commit ${context.sha.substring(0, 8)}
+            `;
+                  }
+                }
+              }
+              
+              if (!summaryContent) {
+                summaryContent = `## 🚀 Lighthouse Performance Report
+                
+                Lighthouse CI completed for commit ${context.sha.substring(0, 8)}.
+                Check the [workflow run](${context.payload.pull_request.html_url}/checks) for detailed results.
+                `;
+              }
+            } catch (error) {
+              summaryContent = `## 🚀 Lighthouse Performance Report
+              
+              Lighthouse CI completed for commit ${context.sha.substring(0, 8)}.
+              There was an issue parsing the results. Check the [workflow run](${context.payload.pull_request.html_url}/checks) for details.
+              `;
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summaryContent
+            });

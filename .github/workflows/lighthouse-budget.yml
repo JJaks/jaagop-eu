@@ -1,0 +1,95 @@
+name: Lighthouse Budget Check
+
+on:
+  # Run on schedule to monitor performance over time
+  schedule:
+    - cron: '0 6 * * 1' # Every Monday at 6 AM UTC
+
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'Production URL to test'
+        required: false
+        default: 'https://jaagop.eu'
+        type: string
+
+jobs:
+  lighthouse-budget:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli@0.12.x
+
+      - name: Run Lighthouse Budget Check
+        run: |
+          URL="${{ github.event.inputs.url || 'https://jaagop.eu' }}"
+          echo "Running Lighthouse budget check on: $URL"
+
+          lhci collect --url="$URL" --numberOfRuns=5
+          lhci assert --budgetsFile=lighthouse-budget.json
+          lhci upload --target=temporary-public-storage
+        env:
+          LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+          LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
+
+      - name: Upload budget results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-budget-${{ github.run_number }}
+          path: |
+            .lighthouseci/
+          retention-days: 90
+
+      # Create an issue if performance degrades significantly
+      - name: Create performance issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = `🚨 Performance Budget Violation - ${new Date().toISOString().split('T')[0]}`;
+            const body = `## Performance Budget Violation Detected
+
+            The scheduled Lighthouse performance check has detected violations of our performance budget.
+
+            **Details:**
+            - **Date:** ${new Date().toISOString()}
+            - **URL Tested:** ${{ github.event.inputs.url || 'https://jaagop.eu' }}
+            - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
+
+            **Next Steps:**
+            1. Review the Lighthouse reports in the workflow artifacts
+            2. Identify performance regressions
+            3. Optimize the site and re-test
+            4. Update performance budgets if needed
+
+            This issue was automatically created by the performance monitoring workflow.
+            `;
+
+            // Check if a similar issue already exists
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'performance,automated',
+              state: 'open'
+            });
+
+            if (existingIssues.data.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['performance', 'automated', 'bug']
+              });
+            }
