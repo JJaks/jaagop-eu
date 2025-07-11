@@ -175,7 +175,7 @@ jobs:
         if: always()
         with:
           name: lighthouse-reports-${{ github.sha }}
-          path: ${{ github.workspace }}/.lighthouseci
+          path: "./lighthouseci/*"
           retention-days: 30
 
       # Comment on PR with results (if it's a PR)
