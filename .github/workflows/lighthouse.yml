@@ -123,7 +123,15 @@ jobs:
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-          
+                # List of files in the .lighthouseci directory
+      - name: List Lighthouse CI files
+        run: |
+          echo "Files in .lighthouseci directory:"
+          if [ -d ".lighthouseci" ]; then
+            ls -l .lighthouseci
+          else
+            echo ".lighthouseci directory does not exist."
+          fi
       # Upload Lighthouse reports as artifacts
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4
@@ -133,16 +141,6 @@ jobs:
           path: |
             .lighthouseci/
           retention-days: 30
-
-      # List of files in the .lighthouseci directory
-      - name: List Lighthouse CI files
-        run: |
-          echo "Files in .lighthouseci directory:"
-          if [ -d ".lighthouseci" ]; then
-            ls -l .lighthouseci
-          else
-            echo ".lighthouseci directory does not exist."
-          fi
 
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
