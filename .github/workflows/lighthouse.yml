@@ -175,8 +175,10 @@ jobs:
         if: always()
         with:
           name: lighthouse-reports-${{ github.sha }}
-          path: "./lighthouseci/*"
+          path: ".lighthouseci/*"
           retention-days: 30
+          include-hidden-files: true
+
 
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
