@@ -65,11 +65,12 @@ jobs:
       # For automatic runs, we'll wait for deployment and test the live site
       - name: Wait for deployment (Vercel/Netlify)
         if: github.event_name != 'workflow_dispatch'
-        uses: UnlyEd/github-action-await-vercel@v1.2.36
+        uses: UnlyEd/github-action-await-vercel@v2.0.0
         id: await-vercel
         with:
           deployment-url: ${{ format('https://{0}', steps.vercel_preview_url.outputs.preview_url) }}
           timeout: 300
+          poll-interval: 5
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         continue-on-error: true
