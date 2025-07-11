@@ -74,7 +74,12 @@
 		<div class="hero-cta will-change-transform">
 			<a href="#main-content" class="scroll-indicator will-change-transform">
 				<span class="scroll-text">Scroll to explore</span>
-				<svg class="scroll-arrow will-change-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<svg
+					class="scroll-arrow will-change-transform"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+				>
 					<path d="M12 5v14M5 12l7 7 7-7" />
 				</svg>
 			</a>
