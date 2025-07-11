@@ -59,7 +59,14 @@ jobs:
           
           # Run assertions but capture result
           set +e  # Don't exit on error
-          lhci assert
+          # For manual testing, assume it's a preview URL if it contains typical preview patterns
+          if [[ "$BASE_URL" =~ (vercel\.app|netlify\.app|preview|staging) ]]; then
+            echo "Running assertions for preview deployment (ignoring is-crawlable)..."
+            lhci assert --preset="lighthouse:no-pwa" --assertions.is-crawlable=off
+          else
+            echo "Running assertions for production..."
+            lhci assert
+          fi
           ASSERT_EXIT_CODE=$?
           set -e  # Re-enable exit on error
           
@@ -129,7 +136,14 @@ jobs:
           
           # Run assertions but capture result
           set +e  # Don't exit on error
-          lhci assert
+          # For PR previews, ignore is-crawlable since they shouldn't be crawlable
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Running assertions for PR preview (ignoring is-crawlable)..."
+            lhci assert --preset="lighthouse:no-pwa" --assertions.is-crawlable=off
+          else
+            echo "Running assertions for production..."
+            lhci assert
+          fi
           ASSERT_EXIT_CODE=$?
           set -e  # Re-enable exit on error
           
