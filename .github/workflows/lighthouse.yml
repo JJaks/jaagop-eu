@@ -42,7 +42,21 @@ jobs:
         run: |
           echo "Testing URL: ${{ github.event.inputs.url }}"
           
-          lhci collect --url="${{ github.event.inputs.url }}" --startServerCommand="" --numberOfRuns=3 --staticDistDir=""
+          # For manual runs, also test additional pages if it's a base URL
+          BASE_URL="${{ github.event.inputs.url }}"
+          if [[ "$BASE_URL" =~ ^https?://[^/]+/?$ ]]; then
+            echo "Detected base URL, testing multiple pages..."
+            PAGES=("" "/projects" "/blog")
+            for page in "${PAGES[@]}"; do
+              URL="${BASE_URL%/}$page"
+              echo "Testing: $URL"
+              lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+            done
+          else
+            echo "Testing single URL..."
+            lhci collect --url="$BASE_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+          fi
+          
           lhci assert
           lhci upload --target=temporary-public-storage
         env:
@@ -87,9 +101,18 @@ jobs:
             # For main branch, use production URL (adjust as needed)
             DEPLOY_URL="https://jaagop.eu"
           fi
-          echo "Testing URL: $DEPLOY_URL"
+          echo "Testing base URL: $DEPLOY_URL"
           
-          lhci collect --url="$DEPLOY_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+          # Define pages to test
+          PAGES=("" "/projects" "/blog")
+          
+          # Test each page
+          for page in "${PAGES[@]}"; do
+            URL="$DEPLOY_URL$page"
+            echo "Testing: $URL"
+            lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+          done
+          
           lhci assert
           lhci upload --target=temporary-public-storage
         
@@ -120,7 +143,7 @@ jobs:
           else
             echo ".lighthouseci directory does not exist."
           fi
-          
+
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
         if: github.event_name == 'pull_request'
@@ -142,11 +165,24 @@ jobs:
                   const reports = manifest.filter(item => item.url && item.summary);
                   
                   if (reports.length > 0) {
-                    const report = reports[0];
-                    const summary = report.summary;
-                    
                     summaryContent = `## 🚀 Lighthouse Performance Report
+
+            **Tested ${reports.length} page(s) for commit ${context.sha.substring(0, 8)}**
+
+            `;
+                    
+                    // Add results for each page
+                    reports.forEach((report, index) => {
+                      const summary = report.summary;
+                      const urlPath = new URL(report.url).pathname || '/';
+                      const pageName = urlPath === '/' ? 'Homepage' : 
+                                     urlPath === '/projects' ? 'Projects' :
+                                     urlPath === '/blog' ? 'Blog' : 
+                                     urlPath;
+                      
+                      summaryContent += `### ${pageName}
             **URL:** ${report.url}
+
             | Category | Score |
             |----------|--------|
             | 🔥 Performance | ${Math.round(summary.performance * 100)}/100 |
@@ -154,8 +190,9 @@ jobs:
             | 💡 Best Practices | ${Math.round(summary['best-practices'] * 100)}/100 |
             | 🔍 SEO | ${Math.round(summary.seo * 100)}/100 |
             | ⚡ PWA | ${summary.pwa ? Math.round(summary.pwa * 100) : 'N/A'}/100 |
-            > Generated for commit ${context.sha.substring(0, 8)}
+
             `;
+                    });
                   }
                 }
               }
