@@ -143,18 +143,19 @@ body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	font-family: var(--font-family-base);
-	/* Remove default margins */
 	margin: 0;
 	padding: 0;
-	/* Global gradient background */
 	background: var(--gradient-primary);
 	background-size: 400% 400%;
-	animation: gradientShift 30s ease-in-out infinite;
 	color: var(--color-text);
 	min-height: 100vh;
+	position: relative;
+	overflow-x: hidden;
+	will-change: background-position;
+	animation: gradientShift 30s ease-in-out infinite;
 }
 
-/* Global gradient animation */
+/* Original gradient animation with performance hints */
 @keyframes gradientShift {
 	0% {
 		background-position: 0% 50%;

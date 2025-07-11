@@ -57,7 +57,7 @@
 		<div class="hero-text">
 			<h1 class="hero-title">Jaagop Janson</h1>
 			<h2 class="hero-subtitle">Senior Software Developer</h2>
-			<div class="hero-location">
+			<div class="hero-location will-change-transform">
 				<svg
 					class="location-icon"
 					viewBox="0 0 24 24"
@@ -71,10 +71,15 @@
 				<span class="location-text">Tallinn, Estonia</span>
 			</div>
 		</div>
-		<div class="hero-cta">
-			<a href="#main-content" class="scroll-indicator">
+		<div class="hero-cta will-change-transform">
+			<a href="#main-content" class="scroll-indicator will-change-transform">
 				<span class="scroll-text">Scroll to explore</span>
-				<svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<svg
+					class="scroll-arrow will-change-transform"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+				>
 					<path d="M12 5v14M5 12l7 7 7-7" />
 				</svg>
 			</a>

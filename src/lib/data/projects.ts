@@ -139,7 +139,7 @@ export const projects: Project[] = [
 		},
 		featured: true,
 		status: 'ongoing',
-		year: '2025'
+		year: '2022'
 	},
 	{
 		id: 'zentria',

@@ -9,9 +9,9 @@
 <Card>
 	<div class="card-content">
 		<div class="card-header">
-			<h3>
+			<h2>
 				<a href="/blog/{post.slug}" class="post-title">{post.title}</a>
-			</h3>
+			</h2>
 			{#if post.featured}
 				<span class="featured-badge">Featured</span>
 			{/if}
@@ -99,7 +99,7 @@
 		border: 1px solid rgba(255, 255, 255, 0.2);
 	}
 
-	h3 {
+	h2 {
 		margin: 0;
 	}
 </style>

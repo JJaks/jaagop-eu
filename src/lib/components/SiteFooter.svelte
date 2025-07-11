@@ -7,7 +7,7 @@
 	<div class="footer-content">
 		<div class="footer-left">
 			<p class="footer-text">
-				Built with <span class="heart">♥</span> using SvelteKit
+				Built with <span class="heart will-change-transform">♥</span> using SvelteKit
 			</p>
 		</div>
 		<div class="footer-right">

@@ -33,11 +33,11 @@
 		{#each contactMethods as method (method.name)}
 			<a
 				href={method.href}
-				class="contact-card"
+				class="contact-card will-change-transform"
 				target={method.href.startsWith('http') ? '_blank' : '_self'}
 				rel={method.href.startsWith('http') ? 'noopener noreferrer' : ''}
 			>
-				<div class="contact-icon">
+				<div class="contact-icon will-change-transform">
 					{#if method.icon === 'email'}
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<path
@@ -72,7 +72,7 @@
 					<p class="contact-value">{method.value}</p>
 					<p class="contact-description">{method.description}</p>
 				</div>
-				<div class="contact-arrow">
+				<div class="contact-arrow will-change-transform">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M5 12h14M12 5l7 7-7 7" />
 					</svg>

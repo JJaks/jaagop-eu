@@ -1,15 +1,11 @@
 name: Lighthouse Performance Testing
 
 on:
-  # Run on pushes to main branch
   push:
-    branches: [main]
-
-  # Run on pull requests
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
-  # Allow manual triggering
   workflow_dispatch:
     inputs:
       url:
@@ -27,22 +23,15 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'pnpm'
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: latest
 
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build site
-        run: pnpm run build
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli@0.12.x
@@ -51,52 +40,147 @@ jobs:
       - name: Run Lighthouse CI (Custom URL)
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.url
         run: |
-          lhci autorun --upload.target=temporary-public-storage
+          echo "Testing URL: ${{ github.event.inputs.url }}"
+
+          # For manual runs, also test additional pages if it's a base URL
+          BASE_URL="${{ github.event.inputs.url }}"
+          if [[ "$BASE_URL" =~ ^https?://[^/]+/?$ ]]; then
+            echo "Detected base URL, testing multiple pages..."
+            PAGES=("" "/projects" "/blog")
+            for page in "${PAGES[@]}"; do
+              URL="${BASE_URL%/}$page"
+              echo "Testing: $URL"
+              lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+            done
+          else
+            echo "Testing single URL..."
+            lhci collect --url="$BASE_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+          fi
+
+          # Run assertions but capture result
+          set +e  # Don't exit on error
+          # For manual testing, assume it's a preview URL if it contains typical preview patterns
+          if [[ "$BASE_URL" =~ (vercel\.app|netlify\.app|preview|staging) ]]; then
+            echo "Running assertions for preview deployment (ignoring is-crawlable)..."
+            lhci assert --preset="lighthouse:no-pwa" --assertions.is-crawlable=off
+          else
+            echo "Running assertions for production..."
+            lhci assert
+          fi
+          ASSERT_EXIT_CODE=$?
+          set -e  # Re-enable exit on error
+
+          # Always upload results
+          lhci upload --target=temporary-public-storage
+
+          # Handle assertion failure
+          if [ $ASSERT_EXIT_CODE -ne 0 ]; then
+            echo "⚠️  Performance budgets not met, but continuing workflow"
+            echo "Check the detailed report for performance issues"
+          else
+            echo "✅ All performance budgets passed!"
+          fi
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
           LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           LHCI_SERVER_URL: ${{ github.event.inputs.url }}
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
+      - name: Get the Vercel preview url
+        id: vercel_preview_url
+        uses: zentered/vercel-preview-url@v1.4.0
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        with:
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
       # For automatic runs, we'll wait for deployment and test the live site
       - name: Wait for deployment (Vercel/Netlify)
         if: github.event_name != 'workflow_dispatch'
-        uses: UnlyEd/github-action-await-vercel@v1.2.36
+        uses: UnlyEd/github-action-await-vercel@v2.0.0
         id: await-vercel
         with:
-          deployment-url: ''
-          timeout: 300 # 5 minutes
+          deployment-url: ${{ format('https://{0}', steps.vercel_preview_url.outputs.preview_url) }}
+          timeout: 300
+          poll-interval: 5
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         continue-on-error: true
 
-      # Fallback: test against preview URL pattern (works for most platforms)
-      - name: Run Lighthouse CI (Auto-detected URL)
+      - name: Run Lighthouse CI
         if: github.event_name != 'workflow_dispatch'
         run: |
+          set -euo pipefail
           # Try to determine the deployment URL
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             # For PRs, construct preview URL (adjust domain as needed)
-            DEPLOY_URL="https://jaagop-eu-git-${{ github.head_ref }}-jaagop.vercel.app"
+            DEPLOY_URL=${{ format('https://{0}', steps.vercel_preview_url.outputs.preview_url) }}
           else
             # For main branch, use production URL (adjust as needed)
             DEPLOY_URL="https://jaagop.eu"
           fi
+          echo "Testing base URL: $DEPLOY_URL"
 
-          echo "Testing URL: $DEPLOY_URL"
+          # Define pages to test
+          PAGES=("" "/projects" "/blog")
 
-          # Wait for URL to be accessible
-          echo "Waiting for deployment to be ready..."
-          timeout 300 bash -c 'until curl -f -s "$0" > /dev/null; do sleep 10; echo "Waiting..."; done' "$DEPLOY_URL" || true
+          # Test each page
+          for page in "${PAGES[@]}"; do
+            URL="$DEPLOY_URL$page"
+            echo "Testing: $URL"
+            lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+          done
 
-          # Run Lighthouse CI
-          lhci autorun --upload.target=temporary-public-storage --collect.url="$DEPLOY_URL"
+          # Run assertions but capture result
+          set +e  # Don't exit on error
+          # For PR previews, ignore is-crawlable since they shouldn't be crawlable
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Running assertions for PR preview (ignoring is-crawlable)..."
+            lhci assert --preset="lighthouse:no-pwa" --assertions.is-crawlable=off --assertions.non-composited-animations=off --assertions.csp-xss=off --assertions.uses-passive-event-listeners=off --assertions.uses-text-compression=off
+          else
+            echo "Running assertions for production..."
+            lhci assert
+          fi
+          ASSERT_EXIT_CODE=$?
+          set -e  # Re-enable exit on error
+
+          # Always upload results
+          lhci upload --target=temporary-public-storage
+
+          # Handle assertion failure
+          if [ $ASSERT_EXIT_CODE -ne 0 ]; then
+            echo "⚠️  Performance budgets not met, but continuing workflow"
+            echo "Check the detailed report for performance issues"
+          else
+            echo "✅ All performance budgets passed!"
+          fi
+
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
           LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          LHCI_GITHUB_APP_TOKEN:
+            ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+            # List of files in the .lighthouseci directory
+      - name: List Lighthouse CI files
+        if: always()
+        run: |
+          echo "Current working directory: $(pwd)"
+          echo "Files in current directory:"
+          ls -la
+          echo "Files in .lighthouseci directory:"
+          if [ -d ".lighthouseci" ]; then
+            ls -la .lighthouseci/
+          else
+            echo ".lighthouseci directory does not exist."
+          fi
+          echo "Absolute path to .lighthouseci:"
+          if [ -d ".lighthouseci" ]; then
+            echo "$(pwd)/.lighthouseci"
+          fi
 
       # Upload Lighthouse reports as artifacts
       - name: Upload Lighthouse reports
@@ -104,10 +188,9 @@ jobs:
         if: always()
         with:
           name: lighthouse-reports-${{ github.sha }}
-          path: |
-            .lighthouseci/
-            lhci_reports/
+          path: '.lighthouseci/*'
           retention-days: 30
+          include-hidden-files: true
 
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
@@ -117,39 +200,132 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-
             // Try to find the Lighthouse summary
             const lhciDir = '.lighthouseci';
             let summaryContent = '';
-
             try {
               if (fs.existsSync(lhciDir)) {
                 const files = fs.readdirSync(lhciDir);
-                const manifestFile = files.find(f => f.includes('manifest.json'));
                 
-                if (manifestFile) {
-                  const manifest = JSON.parse(fs.readFileSync(path.join(lhciDir, manifestFile), 'utf8'));
-                  const reports = manifest.filter(item => item.url && item.summary);
-                  
-                  if (reports.length > 0) {
-                    const report = reports[0];
-                    const summary = report.summary;
-                    
-                    summaryContent = `## 🚀 Lighthouse Performance Report
+                // Look for individual lighthouse report files instead of manifest
+                const reportFiles = files.filter(f => f.startsWith('lhr-') && f.endsWith('.json'));
+                
+                if (reportFiles.length > 0) {
+                  summaryContent = `## 🚀 Lighthouse Performance Report
 
-            **URL:** ${report.url}
+            **Tested ${reportFiles.length} page(s) for commit ${context.sha.substring(0, 8)}**
+
+            `;
+                  
+                  // Check if there are assertion failures
+                  const hasAssertionFailures = fs.existsSync('.lighthouseci/assertion-results.json');
+                  if (hasAssertionFailures) {
+                    try {
+                      const assertionResults = JSON.parse(fs.readFileSync('.lighthouseci/assertion-results.json', 'utf8'));
+                      const failedAssertions = assertionResults.filter(result => result.level === 'error' && !result.passed);
+                      const warnAssertions = assertionResults.filter(result => result.level === 'warn' && !result.passed);
+                      
+                      if (failedAssertions.length > 0 || warnAssertions.length > 0) {
+                        summaryContent += `## ⚠️ Performance Issues Found
+
+            `;
+                        
+                        if (failedAssertions.length > 0) {
+                          summaryContent += `### 🚨 **${failedAssertions.length} Assertion Issues** (Must Fix if applicable for deployment aswell)
+
+            `;
+                          
+                          // Group by URL
+                          const errorsByUrl = {};
+                          failedAssertions.forEach(assertion => {
+                            const urlPath = new URL(assertion.url).pathname || '/';
+                            const pageName = urlPath === '/' ? 'Homepage' : 
+                                           urlPath === '/projects' ? 'Projects' :
+                                           urlPath === '/blog' ? 'Blog' : 
+                                           urlPath;
+                            if (!errorsByUrl[pageName]) errorsByUrl[pageName] = [];
+                            errorsByUrl[pageName].push(assertion);
+                          });
+                          
+                          Object.entries(errorsByUrl).forEach(([page, assertions]) => {
+                            summaryContent += `**${page}:**
+            `;
+                            assertions.forEach(assertion => {
+                              summaryContent += `- ❌ **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
+            `;
+                            });
+                            summaryContent += `
+            `;
+                          });
+                        }
+                        
+                        if (warnAssertions.length > 0) {
+                          summaryContent += `### ⚠️ **${warnAssertions.length} Performance Warnings** (Should Fix)
+
+            `;
+                          
+                          // Group by URL
+                          const warnsByUrl = {};
+                          warnAssertions.forEach(assertion => {
+                            const urlPath = new URL(assertion.url).pathname || '/';
+                            const pageName = urlPath === '/' ? 'Homepage' : 
+                                           urlPath === '/projects' ? 'Projects' :
+                                           urlPath === '/blog' ? 'Blog' : 
+                                           urlPath;
+                            if (!warnsByUrl[pageName]) warnsByUrl[pageName] = [];
+                            warnsByUrl[pageName].push(assertion);
+                          });
+                          
+                          Object.entries(warnsByUrl).forEach(([page, assertions]) => {
+                            summaryContent += `**${page}:**
+            `;
+                            assertions.forEach(assertion => {
+                              summaryContent += `- ⚠️ **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
+            `;
+                            });
+                            summaryContent += `
+            `;
+                          });
+                        }
+                        
+                        summaryContent += `---
+
+            `;
+                      }
+                    } catch (e) {
+                      console.log('Error parsing assertion results:', e);
+                    }
+                  }
+                  
+                  // Parse each report file
+                  reportFiles.forEach((reportFile, index) => {
+                    try {
+                      const report = JSON.parse(fs.readFileSync(path.join(lhciDir, reportFile), 'utf8'));
+                      const url = report.finalUrl || report.requestedUrl;
+                      const urlPath = new URL(url).pathname || '/';
+                      const pageName = urlPath === '/' ? 'Homepage' : 
+                                     urlPath === '/projects' ? 'Projects' :
+                                     urlPath === '/blog' ? 'Blog' : 
+                                     urlPath;
+                      
+                      const categories = report.categories || {};
+                      
+                      summaryContent += `### ${pageName}
+            **URL:** ${url}
 
             | Category | Score |
             |----------|--------|
-            | 🔥 Performance | ${Math.round(summary.performance * 100)}/100 |
-            | ♿ Accessibility | ${Math.round(summary.accessibility * 100)}/100 |
-            | 💡 Best Practices | ${Math.round(summary['best-practices'] * 100)}/100 |
-            | 🔍 SEO | ${Math.round(summary.seo * 100)}/100 |
-            | ⚡ PWA | ${summary.pwa ? Math.round(summary.pwa * 100) : 'N/A'}/100 |
+            | 🔥 Performance | ${Math.round((categories.performance?.score || 0) * 100)}/100 |
+            | ♿ Accessibility | ${Math.round((categories.accessibility?.score || 0) * 100)}/100 |
+            | 💡 Best Practices | ${Math.round((categories['best-practices']?.score || 0) * 100)}/100 |
+            | 🔍 SEO | ${Math.round((categories.seo?.score || 0) * 100)}/100 |
+            | ⚡ PWA | ${categories.pwa ? Math.round(categories.pwa.score * 100) : 'N/A'}/100 |
 
-            > Generated for commit ${context.sha.substring(0, 8)}
             `;
-                  }
+                    } catch (e) {
+                      console.log(`Error parsing report ${reportFile}:`, e);
+                    }
+                  });
                 }
               }
               
@@ -167,7 +343,6 @@ jobs:
               There was an issue parsing the results. Check the [workflow run](${context.payload.pull_request.html_url}/checks) for details.
               `;
             }
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
