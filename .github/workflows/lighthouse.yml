@@ -32,13 +32,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build site
-        run: pnpm run build
 
       - name: Install Lighthouse CI
         run: npm install -g @lhci/cli@0.12.x
@@ -91,11 +84,6 @@ jobs:
 
           echo "Testing URL: $DEPLOY_URL"
 
-          # Wait for URL to be accessible
-          echo "Waiting for deployment to be ready..."
-          timeout 300 bash -c 'until curl -f -s "$0" > /dev/null; do sleep 10; echo "Waiting..."; done' "$DEPLOY_URL" || true
-
-          # Run Lighthouse CI
           lhci autorun --upload.target=temporary-public-storage --collect.url="$DEPLOY_URL"
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
@@ -120,7 +108,6 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            set -euo pipefail
             const fs = require('fs');
             const path = require('path');
 
