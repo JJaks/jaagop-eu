@@ -83,7 +83,7 @@ jobs:
           # Try to determine the deployment URL
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             # For PRs, construct preview URL (adjust domain as needed)
-            DEPLOY_URL="https://jaagop-eu-git-${{ github.head_ref }}-jaagop.vercel.app"
+            DEPLOY_URL=${{ format('https://{0}', steps.vercel_preview_url.outputs.preview_url) }}
           else
             # For main branch, use production URL (adjust as needed)
             DEPLOY_URL="https://jaagop.eu"
