@@ -21,7 +21,7 @@
 	<div class="content-wrapper">
 		<!-- About Section -->
 		<section class="about-section" id="about">
-			<h3>About</h3>
+			<h2>About</h2>
 			<p class="lead">
 				I'm a senior software engineer passionate about creating elegant solutions to complex
 				problems. With expertise in modern web technologies and a focus on clean, maintainable code.
@@ -30,18 +30,18 @@
 
 		<!-- Skills Section -->
 		<section class="skills-section">
-			<h3>Core Technologies</h3>
+			<h2>Core Technologies</h2>
 			<div class="skills-grid">
 				<div class="skill-item">
-					<h4>Frontend</h4>
+					<h3>Frontend</h3>
 					<p>SvelteKit, React, TypeScript, CSS Architecture</p>
 				</div>
 				<div class="skill-item">
-					<h4>Backend</h4>
+					<h3>Backend</h3>
 					<p>Node.js, Python, Database Design, API Development</p>
 				</div>
 				<div class="skill-item">
-					<h4>Tools & Methods</h4>
+					<h3>Tools & Methods</h3>
 					<p>Git, CI/CD, Testing, Performance Optimization</p>
 				</div>
 			</div>
@@ -104,8 +104,8 @@
 		}
 
 		/* Title column styling - remove sticky positioning for better alignment */
-		.about-section h3,
-		.skills-section h3 {
+		.about-section h2,
+		.skills-section h2 {
 			margin-bottom: 0;
 			text-align: left;
 		}
@@ -129,15 +129,15 @@
 		margin-bottom: 0;
 	}
 
-	h3 {
+	h2 {
 		font-size: 1.75rem;
 		font-variation-settings: 'wght' 600;
 		margin-bottom: var(--spacing-md);
 		color: var(--color-text);
 	}
 
-	h4 {
-		font-size: 1.25rem;
+	h3 {
+		font-size: 1.5rem;
 		font-variation-settings: 'wght' 500;
 		margin-bottom: var(--spacing-sm);
 		color: var(--color-text);
@@ -181,7 +181,7 @@
 		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 	}
 
-	.skill-item h4 {
+	.skill-item h3 {
 		margin-bottom: var(--spacing-xs);
 		color: var(--color-primary);
 	}
@@ -204,9 +204,13 @@
 			display: block;
 		}
 
-		h3 {
+		h2 {
 			font-size: 1.5rem;
 			margin-bottom: var(--spacing-md);
+		}
+
+		h3 {
+			font-size: 1.125rem;
 		}
 
 		.lead {
