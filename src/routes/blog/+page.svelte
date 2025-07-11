@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { getAllPosts, getAllTags, getPostsByTag } from '$lib/data/blog';
 	import BlogPostCard from '$lib/components/BlogPostCard.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import FilterButton from '$lib/components/ui/FilterButton.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import { fade } from 'svelte/transition';
 
-	const allPosts = getAllPosts();
-	const allTags = getAllTags();
+	export let data;
+
+	const allPosts = data.posts;
+	const allTags = data.tags;
 
 	let selectedTag: string | 'all' = 'all';
 	let filteredPosts = allPosts;
@@ -19,7 +20,10 @@
 		if (tag === 'all') {
 			filteredPosts = allPosts;
 		} else {
-			filteredPosts = getPostsByTag(tag);
+			// Client-side filtering since we have the posts data
+			filteredPosts = allPosts.filter((post) =>
+				post.tags.some((postTag: string) => postTag.toLowerCase() === tag.toLowerCase())
+			);
 		}
 	};
 </script>
@@ -51,7 +55,9 @@
 			{#each allTags as tag (tag)}
 				<FilterButton
 					active={selectedTag === tag}
-					count={getPostsByTag(tag).length}
+					count={allPosts.filter((post) =>
+						post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase())
+					).length}
 					on:click={() => filterPosts(tag)}
 				>
 					{tag}
