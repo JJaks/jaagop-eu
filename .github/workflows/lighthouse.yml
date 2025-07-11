@@ -211,14 +211,77 @@ jobs:
                     try {
                       const assertionResults = JSON.parse(fs.readFileSync('.lighthouseci/assertion-results.json', 'utf8'));
                       const failedAssertions = assertionResults.filter(result => result.level === 'error' && !result.passed);
+                      const warnAssertions = assertionResults.filter(result => result.level === 'warn' && !result.passed);
                       
-                      if (failedAssertions.length > 0) {
-                        summaryContent += `⚠️ **${failedAssertions.length} performance budget(s) failed**
+                      if (failedAssertions.length > 0 || warnAssertions.length > 0) {
+                        summaryContent += `## ⚠️ Performance Issues Found
+
+            `;
+                        
+                        if (failedAssertions.length > 0) {
+                          summaryContent += `### 🚨 **${failedAssertions.length} Critical Issues** (Must Fix)
+
+            `;
+                          
+                          // Group by URL
+                          const errorsByUrl = {};
+                          failedAssertions.forEach(assertion => {
+                            const urlPath = new URL(assertion.url).pathname || '/';
+                            const pageName = urlPath === '/' ? 'Homepage' : 
+                                           urlPath === '/projects' ? 'Projects' :
+                                           urlPath === '/blog' ? 'Blog' : 
+                                           urlPath;
+                            if (!errorsByUrl[pageName]) errorsByUrl[pageName] = [];
+                            errorsByUrl[pageName].push(assertion);
+                          });
+                          
+                          Object.entries(errorsByUrl).forEach(([page, assertions]) => {
+                            summaryContent += `**${page}:**
+            `;
+                            assertions.forEach(assertion => {
+                              summaryContent += `- ❌ **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
+            `;
+                            });
+                            summaryContent += `
+            `;
+                          });
+                        }
+                        
+                        if (warnAssertions.length > 0) {
+                          summaryContent += `### ⚠️ **${warnAssertions.length} Performance Warnings** (Should Fix)
+
+            `;
+                          
+                          // Group by URL
+                          const warnsByUrl = {};
+                          warnAssertions.forEach(assertion => {
+                            const urlPath = new URL(assertion.url).pathname || '/';
+                            const pageName = urlPath === '/' ? 'Homepage' : 
+                                           urlPath === '/projects' ? 'Projects' :
+                                           urlPath === '/blog' ? 'Blog' : 
+                                           urlPath;
+                            if (!warnsByUrl[pageName]) warnsByUrl[pageName] = [];
+                            warnsByUrl[pageName].push(assertion);
+                          });
+                          
+                          Object.entries(warnsByUrl).forEach(([page, assertions]) => {
+                            summaryContent += `**${page}:**
+            `;
+                            assertions.forEach(assertion => {
+                              summaryContent += `- ⚠️ **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
+            `;
+                            });
+                            summaryContent += `
+            `;
+                          });
+                        }
+                        
+                        summaryContent += `---
 
             `;
                       }
                     } catch (e) {
-                      // Ignore parsing errors
+                      console.log('Error parsing assertion results:', e);
                     }
                   }
                   
