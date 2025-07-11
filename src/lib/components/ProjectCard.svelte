@@ -10,7 +10,14 @@
 	{#if project.image}
 		<div class="project-image">
 			<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
-			<enhanced:img src={project.image as any} alt={project.title} />
+			<enhanced:img
+				src={project.image as any}
+				alt={project.title}
+				sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+				loading="lazy"
+				width="480"
+				height="270"
+			/>
 			<div class="project-overlay">
 				<div class="project-links">
 					{#if project.liveUrl}
