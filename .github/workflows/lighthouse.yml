@@ -40,7 +40,11 @@ jobs:
       - name: Run Lighthouse CI (Custom URL)
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.url
         run: |
-          lhci autorun --upload.target=temporary-public-storage
+          echo "Testing URL: ${{ github.event.inputs.url }}"
+          
+          lhci collect --url="${{ github.event.inputs.url }}" --numberOfRuns=3 --staticDistDir=""
+          lhci assert
+          lhci upload --target=temporary-public-storage
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
@@ -81,10 +85,11 @@ jobs:
             # For main branch, use production URL (adjust as needed)
             DEPLOY_URL="https://jaagop.eu"
           fi
-
           echo "Testing URL: $DEPLOY_URL"
-
-          lhci autorun --upload.target=temporary-public-storage --collect.url="$DEPLOY_URL"
+          
+          lhci collect --url="$DEPLOY_URL" --numberOfRuns=3 --staticDistDir=""
+          lhci assert
+          lhci upload --target=temporary-public-storage
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
@@ -110,11 +115,9 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-
             // Try to find the Lighthouse summary
             const lhciDir = '.lighthouseci';
             let summaryContent = '';
-
             try {
               if (fs.existsSync(lhciDir)) {
                 const files = fs.readdirSync(lhciDir);
@@ -129,9 +132,7 @@ jobs:
                     const summary = report.summary;
                     
                     summaryContent = `## 🚀 Lighthouse Performance Report
-
             **URL:** ${report.url}
-
             | Category | Score |
             |----------|--------|
             | 🔥 Performance | ${Math.round(summary.performance * 100)}/100 |
@@ -139,7 +140,6 @@ jobs:
             | 💡 Best Practices | ${Math.round(summary['best-practices'] * 100)}/100 |
             | 🔍 SEO | ${Math.round(summary.seo * 100)}/100 |
             | ⚡ PWA | ${summary.pwa ? Math.round(summary.pwa * 100) : 'N/A'}/100 |
-
             > Generated for commit ${context.sha.substring(0, 8)}
             `;
                   }
@@ -160,7 +160,6 @@ jobs:
               There was an issue parsing the results. Check the [workflow run](${context.payload.pull_request.html_url}/checks) for details.
               `;
             }
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
