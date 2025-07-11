@@ -51,6 +51,8 @@ jobs:
           LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           LHCI_SERVER_URL: ${{ github.event.inputs.url }}
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
 
       - name: Get the Vercel preview url
         id: vercel_preview_url
@@ -72,8 +74,8 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         continue-on-error: true
 
-      # Fallback: test against preview URL pattern (works for most platforms)
-      - name: Run Lighthouse CI (Auto-detected URL)
+
+      - name: Run Lighthouse CI
         if: github.event_name != 'workflow_dispatch'
         run: |
           set -euo pipefail
@@ -90,22 +92,34 @@ jobs:
           lhci collect --url="$DEPLOY_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
           lhci assert
           lhci upload --target=temporary-public-storage
+        
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
           LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      # Upload Lighthouse reports as artifacts
-      - name: Upload Lighthouse reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: lighthouse-reports-${{ github.sha }}
-          path: |
-            .lighthouseci/
-            lhci_reports/
-          retention-days: 30
+      - name: Debug - List generated files
+        run: |
+          echo "=== Current directory contents ==="
+          ls -la
+          echo "=== Looking for .lighthouseci directory ==="
+          find . -name ".lighthouseci*" -type d
+          echo "=== Looking for lhci_reports directory ==="
+          find . -name "lhci_reports*" -type d
+          echo "=== Looking for any lighthouse files ==="
+          find . -name "*lighthouse*" -type f
+            # Upload Lighthouse reports as artifacts
+            - name: Upload Lighthouse reports
+              uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                name: lighthouse-reports-${{ github.sha }}
+                path: |
+                  .lighthouseci/
+                  lhci_reports/
+                retention-days: 30
 
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
