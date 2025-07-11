@@ -41,7 +41,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.url
         run: |
           echo "Testing URL: ${{ github.event.inputs.url }}"
-          
+
           # For manual runs, also test additional pages if it's a base URL
           BASE_URL="${{ github.event.inputs.url }}"
           if [[ "$BASE_URL" =~ ^https?://[^/]+/?$ ]]; then
@@ -56,7 +56,7 @@ jobs:
             echo "Testing single URL..."
             lhci collect --url="$BASE_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
           fi
-          
+
           # Run assertions but capture result
           set +e  # Don't exit on error
           # For manual testing, assume it's a preview URL if it contains typical preview patterns
@@ -69,10 +69,10 @@ jobs:
           fi
           ASSERT_EXIT_CODE=$?
           set -e  # Re-enable exit on error
-          
+
           # Always upload results
           lhci upload --target=temporary-public-storage
-          
+
           # Handle assertion failure
           if [ $ASSERT_EXIT_CODE -ne 0 ]; then
             echo "⚠️  Performance budgets not met, but continuing workflow"
@@ -87,7 +87,6 @@ jobs:
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           LHCI_SERVER_URL: ${{ github.event.inputs.url }}
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-
 
       - name: Get the Vercel preview url
         id: vercel_preview_url
@@ -109,7 +108,6 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         continue-on-error: true
 
-
       - name: Run Lighthouse CI
         if: github.event_name != 'workflow_dispatch'
         run: |
@@ -123,17 +121,17 @@ jobs:
             DEPLOY_URL="https://jaagop.eu"
           fi
           echo "Testing base URL: $DEPLOY_URL"
-          
+
           # Define pages to test
           PAGES=("" "/projects" "/blog")
-          
+
           # Test each page
           for page in "${PAGES[@]}"; do
             URL="$DEPLOY_URL$page"
             echo "Testing: $URL"
             lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
           done
-          
+
           # Run assertions but capture result
           set +e  # Don't exit on error
           # For PR previews, ignore is-crawlable since they shouldn't be crawlable
@@ -146,10 +144,10 @@ jobs:
           fi
           ASSERT_EXIT_CODE=$?
           set -e  # Re-enable exit on error
-          
+
           # Always upload results
           lhci upload --target=temporary-public-storage
-          
+
           # Handle assertion failure
           if [ $ASSERT_EXIT_CODE -ne 0 ]; then
             echo "⚠️  Performance budgets not met, but continuing workflow"
@@ -157,15 +155,16 @@ jobs:
           else
             echo "✅ All performance budgets passed!"
           fi
-        
+
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
           LHCI_BUILD_CONTEXT__CURRENT_BRANCH: ${{ github.ref_name }}
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_GITHUB_APP_TOKEN:
+            ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-                # List of files in the .lighthouseci directory
+            # List of files in the .lighthouseci directory
       - name: List Lighthouse CI files
         if: always()
         run: |
@@ -182,17 +181,16 @@ jobs:
           if [ -d ".lighthouseci" ]; then
             echo "$(pwd)/.lighthouseci"
           fi
-          
+
       # Upload Lighthouse reports as artifacts
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lighthouse-reports-${{ github.sha }}
-          path: ".lighthouseci/*"
+          path: '.lighthouseci/*'
           retention-days: 30
           include-hidden-files: true
-
 
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
