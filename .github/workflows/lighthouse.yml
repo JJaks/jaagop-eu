@@ -42,7 +42,7 @@ jobs:
         run: |
           echo "Testing URL: ${{ github.event.inputs.url }}"
           
-          lhci collect --url="${{ github.event.inputs.url }}" --numberOfRuns=3 --staticDistDir=""
+          lhci collect --url="${{ github.event.inputs.url }}" --startServerCommand="" --numberOfRuns=3 --staticDistDir=""
           lhci assert
           lhci upload --target=temporary-public-storage
         env:
@@ -87,7 +87,7 @@ jobs:
           fi
           echo "Testing URL: $DEPLOY_URL"
           
-          lhci collect --url="$DEPLOY_URL" --numberOfRuns=3 --staticDistDir=""
+          lhci collect --url="$DEPLOY_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
           lhci assert
           lhci upload --target=temporary-public-storage
         env:
