@@ -11,8 +11,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			"script-src 'self' 'unsafe-inline' https://vercel.live/_next-live/feedback/feedback.js", // SvelteKit needs inline scripts
 			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com", // For component styles and external fonts
 			"img-src 'self' data: https:",
-			"font-src 'self' data: https://fonts.gstatic.com https://fonts.cdnfonts.com", // Allow Google Fonts and CDN Fonts
-			"connect-src 'self'",
+			"font-src 'self' data: https://fonts.gstatic.com https://fonts.cdnfonts.com", 
+			"frame-src https://vercel.live/",
 			"frame-ancestors 'none'",
 			"base-uri 'self'",
 			"form-action 'self'"
