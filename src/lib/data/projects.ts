@@ -8,6 +8,7 @@ import KapitaliGruppImage from '$lib/assets/images/projects/kapitaligrupp.webp';
 import ZentriaImage from '$lib/assets/images/projects/zentria.webp';
 import JausteenusImage from '$lib/assets/images/projects/jausteenus.webp';
 import GoToAndPlayImage from '$lib/assets/images/projects/gotoandplay.webp';
+import JaSearchImage from '$lib/assets/images/projects/jasearch.webp';
 
 export interface Project {
 	id: string;
@@ -74,7 +75,7 @@ export const projects: Project[] = [
 		technologies: ['Wordpress', 'Elementor'],
 		liveUrl: 'http://deleit.eu/',
 		githubUrl: undefined,
-		featured: true,
+		featured: false,
 		company: {
 			name: 'Andify OÜ',
 			url: 'https://www.linkedin.com/company/andify-o%C3%BC/'
@@ -207,6 +208,21 @@ export const projects: Project[] = [
 		featured: false,
 		status: 'completed',
 		year: '2021'
+	},
+	{
+		id: 'jasearch',
+		title: 'JaSearch',
+		description:
+			'This is my personal movie browsing search engine that uses the TMDB API, and custom backend implementing support for Jellyfin and TeliaTV APIs. Made with AstroJS, Typescript, SCSS, Node.js and ExpressJS with Docker image deployment.',
+		shortDescription:
+			'Personal movie browsing search engine using TMDB API, Jellyfin and TeliaTV APIs.',
+		image: JaSearchImage,
+		technologies: ['AstroJS', 'Svelte', 'TypeScript', 'SCSS', 'Node.js', 'ExpressJS', 'Docker'],
+		liveUrl: 'https://search.jaagop.eu/',
+		githubUrl: 'https://github.com/JJaks/jasearch',
+		featured: true,
+		status: 'ongoing',
+		year: '2025'
 	}
 ];
 
