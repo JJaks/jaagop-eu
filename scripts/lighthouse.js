@@ -70,7 +70,7 @@ Options:
 
 Examples:
   # Test development server
-  npm run dev
+  pnpm run dev
   node scripts/lighthouse.js
 
   # Test preview build
