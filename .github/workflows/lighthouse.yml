@@ -231,7 +231,7 @@ jobs:
             `;
                         
                         if (failedAssertions.length > 0) {
-                          summaryContent += `### 🚨 **${failedAssertions.length} Critical Issues** (Must Fix)
+                          summaryContent += `### 🚨 **${failedAssertions.length} Assertion Issues** (Must Fix if applicable for deployment aswell)
 
             `;
                           
