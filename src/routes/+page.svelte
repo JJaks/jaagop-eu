@@ -12,11 +12,11 @@
 		const birth = new Date(birthDate);
 		let age = today.getFullYear() - birth.getFullYear();
 		const monthDiff = today.getMonth() - birth.getMonth();
-		
+
 		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
 			age--;
 		}
-		
+
 		return age;
 	}
 	const age = calculateAge('2000-01-04');
@@ -37,14 +37,14 @@
 		<section class="about-section" id="about">
 			<h2>About</h2>
 			<p class="lead">
-				I'm a {age}-year-old senior software engineer from Estonia with a passion for building scalable,
-				user-focused applications across web, mobile, and TV platforms. With extensive experience at
-				Telia leading cross-platform development and a strong background in e-commerce solutions, I
-				specialize in creating elegant, performant applications that solve real-world problems. <br
-				/>My expertise is primarily in frontend development with modern frameworks, but I'm
-				comfortable working across the full stack when needed. I'm particularly passionate about
-				performance optimization, accessibility, and delivering exceptional user experiences across
-				all devices.
+				I'm a {age}-year-old senior software engineer from Estonia with a passion for building
+				scalable, user-focused applications across web, mobile, and TV platforms. With extensive
+				experience at Telia leading cross-platform development and a strong background in e-commerce
+				solutions, I specialize in creating elegant, performant applications that solve real-world
+				problems. <br />My expertise is primarily in frontend development with modern frameworks,
+				but I'm comfortable working across the full stack when needed. I'm particularly passionate
+				about performance optimization, accessibility, and delivering exceptional user experiences
+				across all devices.
 			</p>
 		</section>
 
