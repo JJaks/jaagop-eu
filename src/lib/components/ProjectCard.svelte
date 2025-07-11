@@ -9,11 +9,9 @@
 <article class="project-card" class:compact>
 	{#if project.image}
 		<div class="project-image">
-			<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
-			<enhanced:img
-				src={project.image as any}
+			<img
+				src={typeof project.image === 'string' ? project.image : ''}
 				alt={project.title}
-				sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 				loading="lazy"
 				width="480"
 				height="270"

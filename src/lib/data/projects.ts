@@ -15,7 +15,7 @@ export interface Project {
 	title: string;
 	description: string;
 	shortDescription?: string;
-	image?: string | object; // Allow string paths or imported image objects
+	image?: string | { src: string }; // Support both string paths and imported image objects
 	technologies: string[];
 	liveUrl?: string;
 	githubUrl?: string;
