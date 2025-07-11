@@ -125,6 +125,7 @@ jobs:
 
                 # List of files in the .lighthouseci directory
       - name: List Lighthouse CI files
+        if: always()
         run: |
           echo "Files in .lighthouseci directory:"
           if [ -d ".lighthouseci" ]; then
