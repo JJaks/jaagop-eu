@@ -100,27 +100,27 @@ jobs:
           LHCI_BUILD_CONTEXT__COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-      - name: Debug - List generated files
-        run: |
-          echo "=== Current directory contents ==="
-          ls -la
-          echo "=== Looking for .lighthouseci directory ==="
-          find . -name ".lighthouseci*" -type d
-          echo "=== Looking for lhci_reports directory ==="
-          find . -name "lhci_reports*" -type d
-          echo "=== Looking for any lighthouse files ==="
-          find . -name "*lighthouse*" -type f
-            # Upload Lighthouse reports as artifacts
-            - name: Upload Lighthouse reports
-              uses: actions/upload-artifact@v4
-              if: always()
-              with:
-                name: lighthouse-reports-${{ github.sha }}
-                path: |
-                  .lighthouseci/
-                  lhci_reports/
-                retention-days: 30
+          
+      # Upload Lighthouse reports as artifacts
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports-${{ github.sha }}
+          path: |
+            .lighthouseci/
+          retention-days: 30
 
+      # List of files in the .lighthouseci directory
+      - name: List Lighthouse CI files
+        run: |
+          echo "Files in .lighthouseci directory:"
+          if [ -d ".lighthouseci" ]; then
+            ls -l .lighthouseci
+          else
+            echo ".lighthouseci directory does not exist."
+          fi
+          
       # Comment on PR with results (if it's a PR)
       - name: Comment PR with Lighthouse results
         if: github.event_name == 'pull_request'
