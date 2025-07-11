@@ -146,24 +146,35 @@ body {
 	margin: 0;
 	padding: 0;
 	background: var(--gradient-primary);
-	background-size: 400% 400%;
 	color: var(--color-text);
 	min-height: 100vh;
 	position: relative;
 	overflow-x: hidden;
-	will-change: background-position;
+}
+
+/* Create animated gradient with GPU-accelerated transform */
+body::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 400%;
+	height: 100%;
+	background: var(--gradient-primary);
+	z-index: -1;
+	will-change: transform;
 	animation: gradientShift 30s ease-in-out infinite;
 }
 
-/* Original gradient animation with performance hints */
+/* GPU-accelerated gradient animation using transform */
 @keyframes gradientShift {
 	0% {
-		background-position: 0% 50%;
+		transform: translateX(0%);
 	}
 	50% {
-		background-position: 100% 50%;
+		transform: translateX(-25%);
 	}
 	100% {
-		background-position: 0% 50%;
+		transform: translateX(0%);
 	}
 }

@@ -76,7 +76,7 @@
 	}
 
 	.content-wrapper {
-		max-width: 800px;
+		max-width: 1200px;
 		margin: 0 auto;
 		padding: var(--spacing-2xl) var(--spacing-md);
 	}

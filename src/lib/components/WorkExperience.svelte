@@ -288,9 +288,26 @@
 		border-left: 3px solid rgba(255, 255, 255, 0.3);
 		border-radius: var(--radius-md);
 		margin-bottom: var(--spacing-md);
-		transition: all 0.3s ease;
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
 		position: relative;
 		overflow: hidden;
+	}
+
+	/* GPU-accelerated border animation */
+	.experience-item::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 3px;
+		height: 100%;
+		background: var(--color-primary);
+		transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform 0.3s ease;
+		will-change: transform;
 	}
 
 	.experience-item::before {
@@ -317,14 +334,20 @@
 	}
 
 	.experience-item:hover {
-		border-left-color: var(--color-primary);
 		transform: translateX(4px);
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 	}
 
-	:global(.experience-item.expanded) {
-		border-left-color: var(--color-primary);
-		background: rgba(255, 255, 255, 0.07);
+	.experience-item:hover::after {
+		transform: scaleY(1);
+	}
+
+	:global(.experience-item.expanded)::before {
+		opacity: 0.7;
+	}
+
+	:global(.experience-item.expanded)::after {
+		transform: scaleY(1);
 	}
 
 	:global(.experience-item.expanded .expand-icon svg) {
@@ -436,17 +459,21 @@
 	}
 
 	.experience-content {
-		max-height: 0;
 		opacity: 0;
 		overflow: hidden;
 		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 		margin-top: 0;
 		position: relative;
 		z-index: 2;
+		transform: scaleY(0);
+		transform-origin: top;
+		will-change: transform, opacity;
 	}
 
 	:global(.experience-item.expanded .experience-content) {
 		margin-top: 0;
+		opacity: 1;
+		transform: scaleY(1);
 	}
 
 	.experience-content p {

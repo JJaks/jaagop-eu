@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import HeroSection from '$lib/components/HeroSection.svelte';
 	import WorkExperience from '$lib/components/WorkExperience.svelte';
 	import ProjectsSection from '$lib/components/ProjectsSection.svelte';
@@ -6,6 +6,20 @@
 	import SiteFooter from '$lib/components/SiteFooter.svelte';
 	import BlogSection from '$lib/components/BlogSection.svelte';
 	import SEO from '$lib/components/SEO.svelte';
+
+	function calculateAge(birthDate: string) {
+		const today = new Date();
+		const birth = new Date(birthDate);
+		let age = today.getFullYear() - birth.getFullYear();
+		const monthDiff = today.getMonth() - birth.getMonth();
+
+		if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+			age--;
+		}
+
+		return age;
+	}
+	const age = calculateAge('2000-01-04');
 </script>
 
 <SEO
@@ -23,8 +37,14 @@
 		<section class="about-section" id="about">
 			<h2>About</h2>
 			<p class="lead">
-				I'm a senior software engineer passionate about creating elegant solutions to complex
-				problems. With expertise in modern web technologies and a focus on clean, maintainable code.
+				I'm a {age}-year-old senior software engineer from Estonia with a passion for building
+				scalable, user-focused applications across web, mobile, and TV platforms. With extensive
+				experience at Telia leading cross-platform development and a strong background in e-commerce
+				solutions, I specialize in creating elegant, performant applications that solve real-world
+				problems. <br />My expertise is primarily in frontend development with modern frameworks,
+				but I'm comfortable working across the full stack when needed. I'm particularly passionate
+				about performance optimization, accessibility, and delivering exceptional user experiences
+				across all devices.
 			</p>
 		</section>
 
@@ -34,15 +54,18 @@
 			<div class="skills-grid">
 				<div class="skill-item will-change-transform">
 					<h3>Frontend</h3>
-					<p>SvelteKit, React, TypeScript, CSS Architecture</p>
+					<p>
+						React, Svelte, AstroJS, Vue, Sveltekit, React Native, TypeScript, CSS Architecture,
+						Accessibility
+					</p>
 				</div>
 				<div class="skill-item will-change-transform">
-					<h3>Backend</h3>
-					<p>Node.js, Python, Database Design, API Development</p>
+					<h3>Backend & Platforms</h3>
+					<p>Node.js, ExpressJS, PHP, MySQL, Docker, Magento 2, WordPress</p>
 				</div>
 				<div class="skill-item will-change-transform">
-					<h3>Tools & Methods</h3>
-					<p>Git, CI/CD, Testing, Performance Optimization</p>
+					<h3>Tools & DevOps</h3>
+					<p>Git, Jenkins, CI/CD, Webpack, Vite, Vercel, Kotlin, Swift, Performance Optimization</p>
 				</div>
 			</div>
 		</section>
