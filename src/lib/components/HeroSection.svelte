@@ -251,6 +251,7 @@
 		font-weight: 400;
 		margin-top: var(--spacing-sm);
 		animation: locationFloat 4s ease-in-out infinite 0.5s;
+		will-change: transform;
 	}
 
 	.location-icon {
@@ -266,6 +267,7 @@
 	.hero-cta {
 		flex: 0 0 auto;
 		animation: ctaFloat 3s ease-in-out infinite 1s;
+		will-change: transform;
 	}
 
 	.scroll-indicator {
@@ -276,6 +278,7 @@
 		text-decoration: none;
 		transition: all 0.3s ease;
 		opacity: 0.8;
+		will-change: transform;
 	}
 
 	.scroll-indicator:hover {
@@ -294,6 +297,7 @@
 		width: 24px;
 		height: 24px;
 		animation: bounce 2s infinite;
+		will-change: transform;
 	}
 
 	/* Animations */

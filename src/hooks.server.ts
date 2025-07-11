@@ -8,7 +8,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		'Content-Security-Policy',
 		[
 			"default-src 'self'",
-			"script-src 'self' 'unsafe-inline'", // SvelteKit needs inline scripts
+			"script-src 'self' 'unsafe-inline' https://vercel.live/_next-live/feedback/feedback.js", // SvelteKit needs inline scripts
 			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com", // For component styles and external fonts
 			"img-src 'self' data: https:",
 			"font-src 'self' data: https://fonts.gstatic.com https://fonts.cdnfonts.com", // Allow Google Fonts and CDN Fonts

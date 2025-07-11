@@ -173,6 +173,7 @@
 		transition:
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
+		will-change: transform;
 	}
 
 	.skill-item:hover {

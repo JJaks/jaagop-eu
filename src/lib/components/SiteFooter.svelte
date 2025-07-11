@@ -50,6 +50,7 @@
 		color: #ef4444;
 		font-size: 1.1em;
 		animation: heartbeat 2s ease-in-out infinite;
+		will-change: transform;
 	}
 
 	.version-tag {

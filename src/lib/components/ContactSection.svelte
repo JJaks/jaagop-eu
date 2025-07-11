@@ -120,6 +120,7 @@
 		transition: all 0.3s ease;
 		position: relative;
 		overflow: hidden;
+		will-change: transform;
 	}
 
 	.contact-card::before {
@@ -155,6 +156,7 @@
 		justify-content: center;
 		color: white;
 		transition: transform 0.3s ease;
+		will-change: transform;
 	}
 
 	.contact-card:hover .contact-icon {
@@ -198,6 +200,7 @@
 		height: 20px;
 		color: var(--color-text-muted);
 		transition: all 0.3s ease;
+		will-change: transform;
 	}
 
 	.contact-card:hover .contact-arrow {

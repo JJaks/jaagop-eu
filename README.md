@@ -1,6 +1,19 @@
 # Jaagop.eu Portfolio
 
-A modern, high-performance portfolio website built with SvelteKit, featuring a robust blog system, comprehensive SEO optimization, and automated code quality workflows.
+A modern, high-performance portfo### 📊 Performance Monitoring
+
+- Automated Lighthouse testing in CI/CD
+- Performance budgets to catch regressions
+- Local development performance tools
+- PR comments with performance insights
+
+### ⚡ Animation Performance
+
+- Composited animations using `transform` and `opacity` only
+- Hardware-accelerated animations with `will-change` properties
+- GPU-optimized gradient animations using pseudo-elements
+- Smooth 60fps animations across all devices
+- Non-blocking main thread animationsbsite built with SvelteKit, featuring a robust blog system, comprehensive SEO optimization, and automated code quality workflows.
 
 ## ✨ Features
 

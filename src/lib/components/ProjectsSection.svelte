@@ -98,6 +98,7 @@
 		font-weight: 500;
 		transition: all 0.2s ease;
 		border: 2px solid transparent;
+		will-change: transform;
 	}
 
 	.btn-outline {
@@ -116,6 +117,7 @@
 		width: 18px;
 		height: 18px;
 		transition: transform 0.2s ease;
+		will-change: transform;
 	}
 
 	.btn:hover svg {
