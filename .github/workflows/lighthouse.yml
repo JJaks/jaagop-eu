@@ -194,59 +194,63 @@ jobs:
             try {
               if (fs.existsSync(lhciDir)) {
                 const files = fs.readdirSync(lhciDir);
-                const manifestFile = files.find(f => f.includes('manifest.json'));
                 
-                if (manifestFile) {
-                  const manifest = JSON.parse(fs.readFileSync(path.join(lhciDir, manifestFile), 'utf8'));
-                  const reports = manifest.filter(item => item.url && item.summary);
+                // Look for individual lighthouse report files instead of manifest
+                const reportFiles = files.filter(f => f.startsWith('lhr-') && f.endsWith('.json'));
+                
+                if (reportFiles.length > 0) {
+                  summaryContent = `## 🚀 Lighthouse Performance Report
+
+            **Tested ${reportFiles.length} page(s) for commit ${context.sha.substring(0, 8)}**
+
+            `;
                   
-                  if (reports.length > 0) {
-                    summaryContent = `## 🚀 Lighthouse Performance Report
-
-            **Tested ${reports.length} page(s) for commit ${context.sha.substring(0, 8)}**
-
-            `;
-                    
-                    // Check if there are assertion failures
-                    const hasAssertionFailures = fs.existsSync('.lighthouseci/assertion-results.json');
-                    if (hasAssertionFailures) {
-                      try {
-                        const assertionResults = JSON.parse(fs.readFileSync('.lighthouseci/assertion-results.json', 'utf8'));
-                        const failedAssertions = assertionResults.filter(result => result.level === 'error' && !result.passed);
-                        
-                        if (failedAssertions.length > 0) {
-                          summaryContent += `⚠️ **${failedAssertions.length} performance budget(s) failed**
+                  // Check if there are assertion failures
+                  const hasAssertionFailures = fs.existsSync('.lighthouseci/assertion-results.json');
+                  if (hasAssertionFailures) {
+                    try {
+                      const assertionResults = JSON.parse(fs.readFileSync('.lighthouseci/assertion-results.json', 'utf8'));
+                      const failedAssertions = assertionResults.filter(result => result.level === 'error' && !result.passed);
+                      
+                      if (failedAssertions.length > 0) {
+                        summaryContent += `⚠️ **${failedAssertions.length} performance budget(s) failed**
 
             `;
-                        }
-                      } catch (e) {
-                        // Ignore parsing errors
                       }
+                    } catch (e) {
+                      // Ignore parsing errors
                     }
-                    
-                    // Add results for each page
-                    reports.forEach((report, index) => {
-                      const summary = report.summary;
-                      const urlPath = new URL(report.url).pathname || '/';
+                  }
+                  
+                  // Parse each report file
+                  reportFiles.forEach((reportFile, index) => {
+                    try {
+                      const report = JSON.parse(fs.readFileSync(path.join(lhciDir, reportFile), 'utf8'));
+                      const url = report.finalUrl || report.requestedUrl;
+                      const urlPath = new URL(url).pathname || '/';
                       const pageName = urlPath === '/' ? 'Homepage' : 
                                      urlPath === '/projects' ? 'Projects' :
                                      urlPath === '/blog' ? 'Blog' : 
                                      urlPath;
                       
+                      const categories = report.categories || {};
+                      
                       summaryContent += `### ${pageName}
-            **URL:** ${report.url}
+            **URL:** ${url}
 
             | Category | Score |
             |----------|--------|
-            | 🔥 Performance | ${Math.round(summary.performance * 100)}/100 |
-            | ♿ Accessibility | ${Math.round(summary.accessibility * 100)}/100 |
-            | 💡 Best Practices | ${Math.round(summary['best-practices'] * 100)}/100 |
-            | 🔍 SEO | ${Math.round(summary.seo * 100)}/100 |
-            | ⚡ PWA | ${summary.pwa ? Math.round(summary.pwa * 100) : 'N/A'}/100 |
+            | 🔥 Performance | ${Math.round((categories.performance?.score || 0) * 100)}/100 |
+            | ♿ Accessibility | ${Math.round((categories.accessibility?.score || 0) * 100)}/100 |
+            | 💡 Best Practices | ${Math.round((categories['best-practices']?.score || 0) * 100)}/100 |
+            | 🔍 SEO | ${Math.round((categories.seo?.score || 0) * 100)}/100 |
+            | ⚡ PWA | ${categories.pwa ? Math.round(categories.pwa.score * 100) : 'N/A'}/100 |
 
             `;
-                    });
-                  }
+                    } catch (e) {
+                      console.log(`Error parsing report ${reportFile}:`, e);
+                    }
+                  });
                 }
               }
               
