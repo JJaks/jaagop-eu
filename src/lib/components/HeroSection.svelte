@@ -57,7 +57,7 @@
 		<div class="hero-text">
 			<h1 class="hero-title">Jaagop Janson</h1>
 			<h2 class="hero-subtitle">Senior Software Developer</h2>
-			<div class="hero-location">
+			<div class="hero-location will-change-transform">
 				<svg
 					class="location-icon"
 					viewBox="0 0 24 24"
@@ -71,10 +71,10 @@
 				<span class="location-text">Tallinn, Estonia</span>
 			</div>
 		</div>
-		<div class="hero-cta">
-			<a href="#main-content" class="scroll-indicator">
+		<div class="hero-cta will-change-transform">
+			<a href="#main-content" class="scroll-indicator will-change-transform">
 				<span class="scroll-text">Scroll to explore</span>
-				<svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+				<svg class="scroll-arrow will-change-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor">
 					<path d="M12 5v14M5 12l7 7 7-7" />
 				</svg>
 			</a>
@@ -251,7 +251,6 @@
 		font-weight: 400;
 		margin-top: var(--spacing-sm);
 		animation: locationFloat 4s ease-in-out infinite 0.5s;
-		will-change: transform;
 	}
 
 	.location-icon {
@@ -267,7 +266,6 @@
 	.hero-cta {
 		flex: 0 0 auto;
 		animation: ctaFloat 3s ease-in-out infinite 1s;
-		will-change: transform;
 	}
 
 	.scroll-indicator {
@@ -278,7 +276,6 @@
 		text-decoration: none;
 		transition: all 0.3s ease;
 		opacity: 0.8;
-		will-change: transform;
 	}
 
 	.scroll-indicator:hover {
@@ -297,7 +294,6 @@
 		width: 24px;
 		height: 24px;
 		animation: bounce 2s infinite;
-		will-change: transform;
 	}
 
 	/* Animations */

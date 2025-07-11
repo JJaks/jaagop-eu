@@ -32,15 +32,15 @@
 		<section class="skills-section">
 			<h2>Core Technologies</h2>
 			<div class="skills-grid">
-				<div class="skill-item">
+				<div class="skill-item will-change-transform">
 					<h3>Frontend</h3>
 					<p>SvelteKit, React, TypeScript, CSS Architecture</p>
 				</div>
-				<div class="skill-item">
+				<div class="skill-item will-change-transform">
 					<h3>Backend</h3>
 					<p>Node.js, Python, Database Design, API Development</p>
 				</div>
-				<div class="skill-item">
+				<div class="skill-item will-change-transform">
 					<h3>Tools & Methods</h3>
 					<p>Git, CI/CD, Testing, Performance Optimization</p>
 				</div>
@@ -173,7 +173,6 @@
 		transition:
 			transform 0.2s ease,
 			box-shadow 0.2s ease;
-		will-change: transform;
 	}
 
 	.skill-item:hover {
