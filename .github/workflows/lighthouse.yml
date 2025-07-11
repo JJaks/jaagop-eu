@@ -155,19 +155,27 @@ jobs:
       - name: List Lighthouse CI files
         if: always()
         run: |
+          echo "Current working directory: $(pwd)"
+          echo "Files in current directory:"
+          ls -la
           echo "Files in .lighthouseci directory:"
           if [ -d ".lighthouseci" ]; then
-            ls -l .lighthouseci
+            ls -la .lighthouseci/
           else
             echo ".lighthouseci directory does not exist."
           fi
+          echo "Absolute path to .lighthouseci:"
+          if [ -d ".lighthouseci" ]; then
+            echo "$(pwd)/.lighthouseci"
+          fi
+          
       # Upload Lighthouse reports as artifacts
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: lighthouse-reports-${{ github.sha }}
-          path: .lighthouseci
+          path: ${{ github.workspace }}/.lighthouseci
           retention-days: 30
 
       # Comment on PR with results (if it's a PR)
