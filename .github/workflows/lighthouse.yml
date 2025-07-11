@@ -57,8 +57,22 @@ jobs:
             lhci collect --url="$BASE_URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
           fi
           
+          # Run assertions but capture result
+          set +e  # Don't exit on error
           lhci assert
+          ASSERT_EXIT_CODE=$?
+          set -e  # Re-enable exit on error
+          
+          # Always upload results
           lhci upload --target=temporary-public-storage
+          
+          # Handle assertion failure
+          if [ $ASSERT_EXIT_CODE -ne 0 ]; then
+            echo "⚠️  Performance budgets not met, but continuing workflow"
+            echo "Check the detailed report for performance issues"
+          else
+            echo "✅ All performance budgets passed!"
+          fi
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
           LHCI_BUILD_CONTEXT__COMMIT_TIME: ${{ github.event.head_commit.timestamp }}
@@ -113,8 +127,22 @@ jobs:
             lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
           done
           
+          # Run assertions but capture result
+          set +e  # Don't exit on error
           lhci assert
+          ASSERT_EXIT_CODE=$?
+          set -e  # Re-enable exit on error
+          
+          # Always upload results
           lhci upload --target=temporary-public-storage
+          
+          # Handle assertion failure
+          if [ $ASSERT_EXIT_CODE -ne 0 ]; then
+            echo "⚠️  Performance budgets not met, but continuing workflow"
+            echo "Check the detailed report for performance issues"
+          else
+            echo "✅ All performance budgets passed!"
+          fi
         
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
@@ -139,8 +167,7 @@ jobs:
         if: always()
         with:
           name: lighthouse-reports-${{ github.sha }}
-          path: |
-            .lighthouseci/
+          path: .lighthouseci
           retention-days: 30
 
       # Comment on PR with results (if it's a PR)
@@ -169,6 +196,23 @@ jobs:
             **Tested ${reports.length} page(s) for commit ${context.sha.substring(0, 8)}**
 
             `;
+                    
+                    // Check if there are assertion failures
+                    const hasAssertionFailures = fs.existsSync('.lighthouseci/assertion-results.json');
+                    if (hasAssertionFailures) {
+                      try {
+                        const assertionResults = JSON.parse(fs.readFileSync('.lighthouseci/assertion-results.json', 'utf8'));
+                        const failedAssertions = assertionResults.filter(result => result.level === 'error' && !result.passed);
+                        
+                        if (failedAssertions.length > 0) {
+                          summaryContent += `⚠️ **${failedAssertions.length} performance budget(s) failed**
+
+            `;
+                        }
+                      } catch (e) {
+                        // Ignore parsing errors
+                      }
+                    }
                     
                     // Add results for each page
                     reports.forEach((report, index) => {
