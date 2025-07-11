@@ -29,6 +29,15 @@ A modern, high-performance portfolio website built with SvelteKit, featuring a r
 - Structured data markup
 - Performance-optimized images
 
+### ♿ Accessibility
+
+- Semantic HTML structure with proper heading hierarchy
+- Keyboard navigation support
+- Screen reader compatibility
+- High contrast ratios for text readability
+- Mobile-first responsive design
+- Focus indicators and ARIA attributes
+
 ### 🛠️ Code Quality
 
 - TypeScript with strict type checking
@@ -37,7 +46,15 @@ A modern, high-performance portfolio website built with SvelteKit, featuring a r
 - Lighthouse performance monitoring
 - Security auditing and dependency review
 
-### 📊 Performance Monitoring
+### � Security
+
+- Content Security Policy (CSP) headers with XSS protection
+- Secure external font loading (Google Fonts, CDN Fonts)
+- Additional security headers (X-Frame-Options, X-Content-Type-Options)
+- Referrer policy and XSS protection
+- Form action and frame ancestor restrictions
+
+### �📊 Performance Monitoring
 
 - Automated Lighthouse testing in CI/CD
 - Performance budgets to catch regressions
@@ -100,7 +117,7 @@ pnpm run release:patch    # Patch version and build
 
 ## 🏗️ Project Structure
 
-```
+```text
 src/
 ├── lib/
 │   ├── components/          # Reusable UI components
