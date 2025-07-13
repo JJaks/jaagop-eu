@@ -9,7 +9,7 @@
 <article class="project-card" class:compact>
 	{#if project.image}
 		<div class="project-image">
-			<img
+			<enhanced:img
 				src={typeof project.image === 'string' ? project.image : ''}
 				alt={project.title}
 				loading="lazy"
@@ -164,6 +164,7 @@
 		aspect-ratio: 16/9;
 		overflow: hidden;
 		background: rgba(0, 0, 0, 0.2);
+		user-select: none;
 	}
 
 	.project-image :global(img) {
