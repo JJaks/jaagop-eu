@@ -1,25 +1,23 @@
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
 import { createBlogPost, type BlogPost } from '$lib/utils/markdown';
 
-const BLOG_DIR = 'static/content/blog';
+// Use Vite's import.meta.glob to import all markdown files at build time
+// This works both locally and in serverless environments like Vercel
+const modules = import.meta.glob('/content/blog/*.md', { 
+	query: '?raw', 
+	import: 'default',
+	eager: true 
+}) as Record<string, string>;
 
 /**
- * Get all blog posts from markdown files (server-side only)
+ * Get all blog posts from imported markdown files
  */
 export function getAllBlogPosts(): BlogPost[] {
 	try {
-		const blogDir = join(process.cwd(), BLOG_DIR);
-		const filenames = readdirSync(blogDir);
-
-		const posts = filenames
-			.filter((filename: string) => filename.endsWith('.md'))
-			.map((filename: string) => {
-				const slug = filename.replace('.md', '');
-				const fullPath = join(blogDir, filename);
-				const content = readFileSync(fullPath, 'utf8');
-
-				return createBlogPost(slug, content);
+		const posts = Object.entries(modules)
+			.map(([path, content]) => {
+				// Extract slug from file path
+				const slug = path.replace('/content/blog/', '').replace('.md', '');
+				return createBlogPost(slug, content as string);
 			})
 			.sort((a: BlogPost, b: BlogPost) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
@@ -31,14 +29,18 @@ export function getAllBlogPosts(): BlogPost[] {
 }
 
 /**
- * Get a specific blog post by slug (server-side only)
+ * Get a specific blog post by slug
  */
 export function getBlogPost(slug: string): BlogPost | null {
 	try {
-		const fullPath = join(process.cwd(), BLOG_DIR, `${slug}.md`);
-		const content = readFileSync(fullPath, 'utf8');
+		const path = `/content/blog/${slug}.md`;
+		const content = modules[path];
+		
+		if (!content) {
+			return null;
+		}
 
-		return createBlogPost(slug, content);
+		return createBlogPost(slug, content as string);
 	} catch (error) {
 		console.error(`Error loading blog post ${slug}:`, error);
 		return null;
@@ -46,14 +48,14 @@ export function getBlogPost(slug: string): BlogPost | null {
 }
 
 /**
- * Get featured blog posts (server-side only)
+ * Get featured blog posts
  */
 export function getFeaturedBlogPosts(): BlogPost[] {
 	return getAllBlogPosts().filter((post) => post.featured);
 }
 
 /**
- * Get blog posts by tag (server-side only)
+ * Get blog posts by tag
  */
 export function getBlogPostsByTag(tag: string): BlogPost[] {
 	return getAllBlogPosts().filter((post) =>
@@ -62,7 +64,7 @@ export function getBlogPostsByTag(tag: string): BlogPost[] {
 }
 
 /**
- * Get all unique tags from blog posts (server-side only)
+ * Get all unique tags from blog posts
  */
 export function getAllTags(): string[] {
 	const allTags = getAllBlogPosts().flatMap((post) => post.tags);
