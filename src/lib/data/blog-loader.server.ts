@@ -2,10 +2,10 @@ import { createBlogPost, type BlogPost } from '$lib/utils/markdown';
 
 // Use Vite's import.meta.glob to import all markdown files at build time
 // This works both locally and in serverless environments like Vercel
-const modules = import.meta.glob('/content/blog/*.md', { 
-	query: '?raw', 
+const modules = import.meta.glob('/content/blog/*.md', {
+	query: '?raw',
 	import: 'default',
-	eager: true 
+	eager: true
 }) as Record<string, string>;
 
 /**
@@ -35,7 +35,7 @@ export function getBlogPost(slug: string): BlogPost | null {
 	try {
 		const path = `/content/blog/${slug}.md`;
 		const content = modules[path];
-		
+
 		if (!content) {
 			return null;
 		}
