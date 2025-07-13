@@ -15,12 +15,20 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	});
 
-	// Set Content Security Policy (CSP) headers with nonces and strict-dynamic
+	// Detect if we're in Vercel preview environment
+	const isVercelPreview = event.url.hostname.includes('vercel.app') || 
+						   event.request.headers.get('x-vercel-deployment-url');
+
+	// Set Content Security Policy (CSP) headers with environment-aware policies
+	const scriptSrc = isVercelPreview 
+		? `script-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://vercel.live/` 
+		: `script-src 'self' 'strict-dynamic' 'nonce-${nonce}' 'unsafe-inline' https: http:`;
+
 	response.headers.set(
 		'Content-Security-Policy',
 		[
 			"default-src 'self'",
-			`script-src 'self' 'strict-dynamic' 'nonce-${nonce}' 'unsafe-inline' https://vercel.live/_next-live/feedback/feedback.js`, // strict-dynamic with nonce
+			scriptSrc,
 			"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", // For component styles and external fonts
 			"img-src 'self' data: https:",
 			"font-src 'self' data: https://fonts.gstatic.com",
@@ -28,7 +36,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			'frame-src https://vercel.live/',
 			"frame-ancestors 'none'",
 			"base-uri 'self'",
-			"form-action 'self'"
+			"form-action 'self'",
+			"object-src 'none'"
 		].join('; ')
 	);
 
