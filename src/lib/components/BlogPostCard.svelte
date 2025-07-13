@@ -55,7 +55,7 @@
 	}
 
 	.featured-badge {
-		background: var(--color-primary);
+		background: #2563eb;
 		color: white;
 		padding: 0.25rem 0.5rem;
 		border-radius: var(--radius-sm);
