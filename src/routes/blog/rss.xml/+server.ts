@@ -1,9 +1,9 @@
-import { getAllPosts } from '$lib/data/blog';
+import { getAllBlogPosts } from '$lib/data/blog-loader.server';
 import { renderMarkdown } from '$lib/utils/markdown';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
-	const posts = getAllPosts();
+	const posts = getAllBlogPosts();
 	const siteUrl = 'https://jaagop.eu';
 
 	const rss = `<?xml version="1.0" encoding="UTF-8" ?>

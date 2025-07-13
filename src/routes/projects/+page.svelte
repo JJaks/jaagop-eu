@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import Button from '$lib/components/ui/Button.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
@@ -86,12 +87,12 @@
 		{/if}
 
 		<div class="back-to-home">
-			<a href="/" class="btn btn-outline">
+			<Button href="/" variant="outline">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M19 12H5M12 19l-7-7 7-7" />
 				</svg>
-				<span>Back to Home</span>
-			</a>
+				Back to Home
+			</Button>
 		</div>
 	</div>
 </main>
@@ -215,37 +216,14 @@
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-sm);
-		padding: var(--spacing-md) var(--spacing-lg);
-		border-radius: var(--radius-sm);
-		text-decoration: none;
-		font-weight: 500;
-		transition: all 0.2s ease;
-		border: 2px solid transparent;
-	}
-
-	.btn-outline {
-		background: transparent;
-		color: var(--color-primary);
-		border-color: var(--color-primary);
-	}
-
-	.btn-outline:hover {
-		background: var(--color-primary);
-		color: white;
-		transform: translateY(-1px);
-	}
-
-	.btn svg {
+	:global(.back-to-home .btn svg) {
 		width: 18px;
 		height: 18px;
+		margin-right: var(--spacing-xs);
 		transition: transform 0.2s ease;
 	}
 
-	.btn:hover svg {
+	:global(.back-to-home .btn:hover svg) {
 		transform: translateX(-2px);
 	}
 

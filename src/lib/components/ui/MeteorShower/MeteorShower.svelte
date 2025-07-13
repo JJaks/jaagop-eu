@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { cn } from '$lib/utils/cn';
 	import { onMount } from 'svelte';
 
 	export let className: string | undefined = undefined;
@@ -26,7 +25,7 @@
 	});
 </script>
 
-<div class={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+<div class="absolute inset-0 overflow-hidden pointer-events-none {className || ''}">
 	{#each meteors as meteor (meteor.id)}
 		<div
 			class="meteor"
