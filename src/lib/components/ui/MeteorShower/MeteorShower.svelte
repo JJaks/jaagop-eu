@@ -27,12 +27,7 @@
 	});
 </script>
 
-<div
-	class={cn(
-		'absolute inset-0 overflow-hidden pointer-events-none',
-		className
-	)}
->
+<div class={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
 	{#each meteors as meteor (meteor.id)}
 		<div
 			class="meteor"
@@ -67,7 +62,7 @@
 		animation: meteor-fall linear infinite;
 		transform-origin: top center;
 		transform: rotate(-45deg);
-		box-shadow: 
+		box-shadow:
 			0 0 6px rgba(255, 255, 255, 0.8),
 			0 0 12px rgba(24, 204, 252, 0.6),
 			0 0 18px rgba(99, 68, 245, 0.4);
@@ -91,7 +86,7 @@
 	}
 
 	/* Remove the old glow effect */
-	
+
 	/* Reduce motion for accessibility */
 	@media (prefers-reduced-motion: reduce) {
 		.meteor {
