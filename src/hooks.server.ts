@@ -16,12 +16,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 
 	// Detect if we're in Vercel preview environment
-	const isVercelPreview = event.url.hostname.includes('vercel.app') || 
-						   event.request.headers.get('x-vercel-deployment-url');
+	const isVercelPreview =
+		event.url.hostname.includes('vercel.app') ||
+		event.request.headers.get('x-vercel-deployment-url');
 
 	// Set Content Security Policy (CSP) headers with environment-aware policies
-	const scriptSrc = isVercelPreview 
-		? `script-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://vercel.live/` 
+	const scriptSrc = isVercelPreview
+		? `script-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://vercel.live/`
 		: `script-src 'self' 'strict-dynamic' 'nonce-${nonce}' 'unsafe-inline' https: http:`;
 
 	response.headers.set(
