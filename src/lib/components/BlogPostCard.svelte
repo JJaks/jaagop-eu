@@ -1,7 +1,8 @@
 <script lang="ts">
-	import type { BlogPost } from '$lib/data/blog';
-	import { formatDate } from '$lib/data/blog';
+	import type { BlogPost } from '$lib/utils/markdown';
 	import Card from '$lib/components/ui/Card.svelte';
+	import Tag from '$lib/components/ui/Tag.svelte';
+	import { formatDate } from '$lib/utils/date';
 
 	export let post: BlogPost;
 </script>
@@ -13,7 +14,7 @@
 				<a href="/blog/{post.slug}" class="post-title">{post.title}</a>
 			</h2>
 			{#if post.featured}
-				<span class="featured-badge">Featured</span>
+				<Tag variant="secondary" size="sm">Featured</Tag>
 			{/if}
 		</div>
 
@@ -26,7 +27,7 @@
 
 		<div class="tags">
 			{#each post.tags as tag (tag)}
-				<span class="tag">{tag}</span>
+				<Tag variant="primary">{tag}</Tag>
 			{/each}
 		</div>
 	</div>
@@ -54,16 +55,6 @@
 		color: var(--color-primary);
 	}
 
-	.featured-badge {
-		background: #2563eb;
-		color: white;
-		padding: 0.25rem 0.5rem;
-		border-radius: var(--radius-sm);
-		font-size: 0.75rem;
-		font-weight: 500;
-		flex-shrink: 0;
-	}
-
 	.excerpt {
 		color: var(--color-text-paragraph);
 		line-height: 1.6;
@@ -88,15 +79,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--spacing-xs);
-	}
-
-	.tag {
-		background: rgba(255, 255, 255, 0.1);
-		color: var(--color-text-muted);
-		padding: 0.25rem 0.5rem;
-		border-radius: var(--radius-sm);
-		font-size: 0.75rem;
-		border: 1px solid rgba(255, 255, 255, 0.2);
 	}
 
 	h2 {

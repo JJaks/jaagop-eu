@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { formatDate } from '$lib/data/blog';
+	import { formatDate } from '$lib/utils/date';
 	import { renderMarkdown } from '$lib/utils/markdown';
 	import Button from '$lib/components/ui/Button.svelte';
 	import SEO from '$lib/components/SEO.svelte';

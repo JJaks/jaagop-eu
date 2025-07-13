@@ -47,10 +47,35 @@ jobs:
           if [[ "$BASE_URL" =~ ^https?://[^/]+/?$ ]]; then
             echo "Detected base URL, testing multiple pages..."
             PAGES=("" "/projects" "/blog")
-            for page in "${PAGES[@]}"; do
+            rm -rf .lighthouseci  # Clean slate
+            
+            for i in "${!PAGES[@]}"; do
+              page="${PAGES[$i]}"
               URL="${BASE_URL%/}$page"
               echo "Testing: $URL"
-              lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+              
+              # Create temporary directory for this URL
+              TEMP_DIR=".lighthouseci-temp-$i"
+              mkdir -p "$TEMP_DIR"
+              
+              # Collect with temporary directory
+              lhci collect \
+                --url="$URL" \
+                --numberOfRuns=3 \
+                --startServerCommand="" \
+                --staticDistDir="" \
+                --settings.ci.collect.settings.chromeFlags="--no-sandbox --disable-dev-shm-usage" \
+                --settings.ci.collect.outputDir="$TEMP_DIR"
+            done
+            
+            # Combine all results into main .lighthouseci directory
+            mkdir -p .lighthouseci
+            for i in "${!PAGES[@]}"; do
+              TEMP_DIR=".lighthouseci-temp-$i"
+              if [ -d "$TEMP_DIR" ]; then
+                cp "$TEMP_DIR"/*.json .lighthouseci/ 2>/dev/null || true
+                rm -rf "$TEMP_DIR"
+              fi
             done
           else
             echo "Testing single URL..."
@@ -125,11 +150,38 @@ jobs:
           # Define pages to test
           PAGES=("" "/projects" "/blog")
 
-          # Test each page
-          for page in "${PAGES[@]}"; do
+          # Test each page with separate collect commands but ensure they don't overwrite
+          echo "Testing multiple URLs..."
+          rm -rf .lighthouseci  # Clean slate
+          for i in "${!PAGES[@]}"; do
+            page="${PAGES[$i]}"
             URL="$DEPLOY_URL$page"
             echo "Testing: $URL"
-            lhci collect --url="$URL" --numberOfRuns=3 --startServerCommand="" --staticDistDir=""
+            
+            # Create temporary directory for this URL
+            TEMP_DIR=".lighthouseci-temp-$i"
+            mkdir -p "$TEMP_DIR"
+            
+            # Collect with temporary directory
+            LHCI_BUILD_CONTEXT__CURRENT_HASH="${{ github.sha }}" \
+            LHCI_BUILD_CONTEXT__COMMIT_TIME="${{ github.event.head_commit.timestamp }}" \
+            lhci collect \
+              --url="$URL" \
+              --numberOfRuns=3 \
+              --startServerCommand="" \
+              --staticDistDir="" \
+              --settings.ci.collect.settings.chromeFlags="--no-sandbox --disable-dev-shm-usage" \
+              --settings.ci.collect.outputDir="$TEMP_DIR"
+          done
+
+          # Combine all results into main .lighthouseci directory
+          mkdir -p .lighthouseci
+          for i in "${!PAGES[@]}"; do
+            TEMP_DIR=".lighthouseci-temp-$i"
+            if [ -d "$TEMP_DIR" ]; then
+              cp "$TEMP_DIR"/*.json .lighthouseci/ 2>/dev/null || true
+              rm -rf "$TEMP_DIR"
+            fi
           done
 
           # Run assertions but capture result
@@ -188,6 +240,8 @@ jobs:
                 
                 // Look for individual lighthouse report files instead of manifest
                 const reportFiles = files.filter(f => f.startsWith('lhr-') && f.endsWith('.json'));
+                console.log('Found report files:', reportFiles);
+                console.log('All files in .lighthouseci:', files);
                 
                 if (reportFiles.length > 0) {
                   summaryContent = `## 🚀 Lighthouse Performance Report
@@ -276,8 +330,9 @@ jobs:
                     }
                   }
                   
-                  // Parse each report file
-                  reportFiles.forEach((reportFile, index) => {
+                  // Parse each report file and group by URL
+                  const reportsByUrl = {};
+                  reportFiles.forEach((reportFile) => {
                     try {
                       const report = JSON.parse(fs.readFileSync(path.join(lhciDir, reportFile), 'utf8'));
                       const url = report.finalUrl || report.requestedUrl;
@@ -287,23 +342,57 @@ jobs:
                                      urlPath === '/blog' ? 'Blog' : 
                                      urlPath;
                       
-                      const categories = report.categories || {};
-                      
-                      summaryContent += `### ${pageName}
-            **URL:** ${url}
-
-            | Category | Score |
-            |----------|--------|
-            | 🔥 Performance | ${Math.round((categories.performance?.score || 0) * 100)}/100 |
-            | ♿ Accessibility | ${Math.round((categories.accessibility?.score || 0) * 100)}/100 |
-            | 💡 Best Practices | ${Math.round((categories['best-practices']?.score || 0) * 100)}/100 |
-            | 🔍 SEO | ${Math.round((categories.seo?.score || 0) * 100)}/100 |
-            | ⚡ PWA | ${categories.pwa ? Math.round(categories.pwa.score * 100) : 'N/A'}/100 |
-
-            `;
+                      if (!reportsByUrl[pageName]) {
+                        reportsByUrl[pageName] = [];
+                      }
+                      reportsByUrl[pageName].push({
+                        url: url,
+                        categories: report.categories || {}
+                      });
                     } catch (e) {
                       console.log(`Error parsing report ${reportFile}:`, e);
                     }
+                  });
+                  
+                  // Display results grouped by page
+                  Object.entries(reportsByUrl).forEach(([pageName, reports]) => {
+                    if (reports.length === 0) return;
+                    
+                    // Calculate average scores across runs
+                    const avgScores = {
+                      performance: 0,
+                      accessibility: 0,
+                      'best-practices': 0,
+                      seo: 0,
+                      pwa: 0
+                    };
+                    
+                    reports.forEach(report => {
+                      const categories = report.categories;
+                      avgScores.performance += (categories.performance?.score || 0);
+                      avgScores.accessibility += (categories.accessibility?.score || 0);
+                      avgScores['best-practices'] += (categories['best-practices']?.score || 0);
+                      avgScores.seo += (categories.seo?.score || 0);
+                      avgScores.pwa += (categories.pwa?.score || 0);
+                    });
+                    
+                    Object.keys(avgScores).forEach(key => {
+                      avgScores[key] = Math.round((avgScores[key] / reports.length) * 100);
+                    });
+                    
+                    summaryContent += `### ${pageName}
+            **URL:** ${reports[0].url}
+            **Runs:** ${reports.length}
+
+            | Category | Score |
+            |----------|--------|
+            | 🔥 Performance | ${avgScores.performance}/100 |
+            | ♿ Accessibility | ${avgScores.accessibility}/100 |
+            | 💡 Best Practices | ${avgScores['best-practices']}/100 |
+            | 🔍 SEO | ${avgScores.seo}/100 |
+            | ⚡ PWA | ${avgScores.pwa || 'N/A'}/100 |
+
+            `;
                   });
                 }
               }

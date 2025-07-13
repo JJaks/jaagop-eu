@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import Tag from '$lib/components/ui/Tag.svelte';
 
 	export let experiences = [
 		{
@@ -184,7 +185,7 @@
 						{#if experience.tags && experience.tags.length > 0}
 							<div class="experience-tags">
 								{#each experience.tags as tag (tag)}
-									<span class="tag">{tag}</span>
+									<Tag variant="primary">{tag}</Tag>
 								{/each}
 							</div>
 						{/if}
@@ -492,23 +493,6 @@
 		padding: 0 var(--spacing-lg) var(--spacing-lg);
 	}
 
-	.tag {
-		display: inline-block;
-		padding: var(--spacing-xs) var(--spacing-sm);
-		background: rgba(96, 165, 250, 0.2);
-		color: #93c5fd;
-		border-radius: var(--radius-sm);
-		font-size: 0.8rem;
-		font-weight: 500;
-		border: 1px solid rgba(96, 165, 250, 0.3);
-		transition: all 0.2s ease;
-	}
-
-	.tag:hover {
-		background: rgba(96, 165, 250, 0.3);
-		transform: translateY(-1px);
-	}
-
 	/* Typography */
 	h3 {
 		font-size: 1.75rem;
@@ -573,11 +557,6 @@
 
 		.experience-tags {
 			padding: 0 var(--spacing-md) var(--spacing-md);
-		}
-
-		.tag {
-			font-size: 0.75rem;
-			padding: calc(var(--spacing-xs) * 0.75) var(--spacing-xs);
 		}
 	}
 </style>

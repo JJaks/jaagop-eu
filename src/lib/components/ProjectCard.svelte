@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Project } from '$lib/data/projects';
 	import Button from '$lib/components/ui/Button.svelte';
+	import Tag from '$lib/components/ui/Tag.svelte';
 
 	export let project: Project;
 	export let compact = false; // For main page preview vs full projects page
@@ -58,18 +59,20 @@
 			<h3 class="project-title">{project.title}</h3>
 			<div class="project-meta">
 				<span class="project-year">{project.year}</span>
-				<span
-					class="project-status"
-					class:completed={project.status === 'completed'}
-					class:ongoing={project.status === 'ongoing'}
-					class:planning={project.status === 'planning'}
+				<Tag
+					variant={project.status === 'completed'
+						? 'success'
+						: project.status === 'ongoing'
+							? 'warning'
+							: 'info'}
+					size="sm"
 				>
 					{project.status === 'completed'
 						? 'Completed'
 						: project.status === 'ongoing'
 							? 'Ongoing'
 							: 'Planning'}
-				</span>
+				</Tag>
 				{#if project.company}
 					<div class="project-company">
 						{#if project.company.url}
@@ -119,7 +122,7 @@
 
 		<div class="project-technologies">
 			{#each project.technologies as tech (tech)}
-				<span class="tech-tag">{tech}</span>
+				<Tag variant="primary">{tech}</Tag>
 			{/each}
 		</div>
 
@@ -256,33 +259,6 @@
 		font-weight: 500;
 	}
 
-	.project-status {
-		font-size: 0.8rem;
-		padding: calc(var(--spacing-xs) * 0.5) var(--spacing-xs);
-		border-radius: var(--radius-sm);
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	.project-status.completed {
-		background: rgba(34, 197, 94, 0.2);
-		color: #4ade80;
-		border: 1px solid rgba(34, 197, 94, 0.3);
-	}
-
-	.project-status.ongoing {
-		background: rgba(251, 191, 36, 0.2);
-		color: #fbbf24;
-		border: 1px solid rgba(251, 191, 36, 0.3);
-	}
-
-	.project-status.planning {
-		background: rgba(168, 85, 247, 0.2);
-		color: #a855f7;
-		border: 1px solid rgba(168, 85, 247, 0.3);
-	}
-
 	.project-company {
 		display: flex;
 		align-items: center;
@@ -329,22 +305,6 @@
 		flex-wrap: wrap;
 		gap: var(--spacing-xs);
 		margin-bottom: var(--spacing-md);
-	}
-
-	.tech-tag {
-		padding: calc(var(--spacing-xs) * 0.75) var(--spacing-sm);
-		background: rgba(96, 165, 250, 0.15);
-		color: #93c5fd;
-		border-radius: var(--radius-sm);
-		font-size: 0.8rem;
-		font-weight: 500;
-		border: 1px solid rgba(96, 165, 250, 0.25);
-		transition: all 0.2s ease;
-	}
-
-	.tech-tag:hover {
-		background: rgba(96, 165, 250, 0.25);
-		transform: translateY(-1px);
 	}
 
 	.project-actions {

@@ -1,4 +1,4 @@
-/* Semantic component classes */
+/* Utility and component classes */
 
 /* Layout components */
 .page-container {
@@ -60,7 +60,6 @@
 	text-decoration: underline;
 }
 
-/* Button components */
 /* Text styling */
 .text-centered {
 	text-align: center;
