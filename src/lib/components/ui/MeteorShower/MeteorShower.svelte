@@ -21,8 +21,8 @@
 			left: `${Math.random() * 120 - 20}%`, // Start from various positions
 			top: `${Math.random() * 60 - 10}%`, // Random vertical start positions
 			animationDelay: `${Math.random() * 10}s`,
-			animationDuration: `${1.5 + Math.random() * 3}s`, // Faster for shooting star effect
-			size: `${2 + Math.random() * 2}px` // Meteor head size
+			animationDuration: `${2.5 + Math.random() * 8}s`, // Faster for shooting star effect
+			size: `${3 + Math.random() * 2}px` // Meteor head size
 		}));
 	});
 </script>
