@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { createBlogPost, type BlogPost } from '$lib/utils/markdown';
 
-const BLOG_DIR = 'content/blog';
+const BLOG_DIR = 'static/content/blog';
 
 /**
  * Get all blog posts from markdown files (server-side only)
