@@ -7,29 +7,15 @@
 </script>
 
 {#if href}
-	<a
-		{href}
-		class="tag tag-{variant} tag-{size}"
-		class:clickable
-		on:click
-		on:keydown
-	>
+	<a {href} class="tag tag-{variant} tag-{size}" class:clickable on:click on:keydown>
 		<slot />
 	</a>
 {:else if clickable}
-	<button
-		type="button"
-		class="tag tag-{variant} tag-{size}"
-		class:clickable
-		on:click
-		on:keydown
-	>
+	<button type="button" class="tag tag-{variant} tag-{size}" class:clickable on:click on:keydown>
 		<slot />
 	</button>
 {:else}
-	<span
-		class="tag tag-{variant} tag-{size}"
-	>
+	<span class="tag tag-{variant} tag-{size}">
 		<slot />
 	</span>
 {/if}
