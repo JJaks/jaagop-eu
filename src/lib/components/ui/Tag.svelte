@@ -4,23 +4,35 @@
 	export let size: 'sm' | 'md' = 'sm';
 	export let href: string | undefined = undefined;
 	export let clickable = false;
-
-	$: component = href ? 'a' : 'span';
-	$: tabindex = clickable && !href ? 0 : undefined;
 </script>
 
-<svelte:element
-	this={component}
-	{href}
-	class="tag tag-{variant} tag-{size}"
-	class:clickable
-	{tabindex}
-	role={clickable && !href ? 'button' : undefined}
-	on:click
-	on:keydown
->
-	<slot />
-</svelte:element>
+{#if href}
+	<a
+		{href}
+		class="tag tag-{variant} tag-{size}"
+		class:clickable
+		on:click
+		on:keydown
+	>
+		<slot />
+	</a>
+{:else if clickable}
+	<button
+		type="button"
+		class="tag tag-{variant} tag-{size}"
+		class:clickable
+		on:click
+		on:keydown
+	>
+		<slot />
+	</button>
+{:else}
+	<span
+		class="tag tag-{variant} tag-{size}"
+	>
+		<slot />
+	</span>
+{/if}
 
 <style>
 	.tag {
@@ -31,6 +43,20 @@
 		text-decoration: none;
 		border: 1px solid;
 		white-space: nowrap;
+		/* Button reset styles */
+		background: none;
+		font-family: inherit;
+		font-size: inherit;
+		cursor: inherit;
+		line-height: inherit;
+		color: inherit;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* Reset button-specific styles when used as button */
+	button.tag {
+		cursor: pointer;
 	}
 
 	/* Sizes */
