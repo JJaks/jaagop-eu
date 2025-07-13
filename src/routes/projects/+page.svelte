@@ -24,7 +24,7 @@
 
 <SEO
 	title="Projects - Jaagop Janson"
-	description="Explore my portfolio of web development projects featuring modern technologies like SvelteKit, React, TypeScript, and innovative solutions for real-world problems."
+	description="Explore my portfolio of development projects featuring modern technologies like SvelteKit, React, TypeScript, and innovative solutions for real-world problems."
 	url="/projects"
 	keywords="projects, portfolio, web development, SvelteKit, React, TypeScript, JavaScript, mobile apps, full-stack development"
 />
@@ -34,7 +34,7 @@
 		<header class="page-header">
 			<h1>My Projects</h1>
 			<p class="page-subtitle">
-				A collection of {allProjects.length} projects showcasing my skills in web development, from simple
+				A collection of {allProjects.length} projects showcasing my skills in development, from simple
 				websites to complex applications.
 			</p>
 		</header>

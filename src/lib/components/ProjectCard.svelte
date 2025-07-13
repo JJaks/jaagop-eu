@@ -9,8 +9,13 @@
 <article class="project-card" class:compact>
 	{#if project.image}
 		<div class="project-image">
-			<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
-			<enhanced:img src={project.image as any} alt={project.title} />
+			<enhanced:img
+				src={typeof project.image === 'string' ? project.image : ''}
+				alt={project.title}
+				loading="lazy"
+				width="480"
+				height="270"
+			/>
 			<div class="project-overlay">
 				<div class="project-links">
 					{#if project.liveUrl}
@@ -159,6 +164,7 @@
 		aspect-ratio: 16/9;
 		overflow: hidden;
 		background: rgba(0, 0, 0, 0.2);
+		user-select: none;
 	}
 
 	.project-image :global(img) {

@@ -1,5 +1,5 @@
 <script>
-	import BackgroundBeams from './ui/BackgroundBeams/BackgroundBeams.svelte';
+	import MeteorShower from './ui/MeteorShower/MeteorShower.svelte';
 
 	let mobileMenuOpen = false;
 
@@ -14,7 +14,7 @@
 
 <header class="hero-section">
 	<div class="hero-background">
-		<BackgroundBeams className="background-beams extended-beams" />
+		<MeteorShower className="meteor-shower extended-meteors" />
 	</div>
 
 	<div class="hero-content">
@@ -107,8 +107,8 @@
 		overflow: visible;
 	}
 
-	/* Extended background beams */
-	:global(.extended-beams) {
+	/* Extended meteor shower */
+	:global(.extended-meteors) {
 		height: 150vh !important;
 		top: 0 !important;
 	}

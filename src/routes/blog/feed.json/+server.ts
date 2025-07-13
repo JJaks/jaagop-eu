@@ -1,9 +1,8 @@
-import { getAllPosts } from '$lib/data/blog';
-import { renderMarkdown } from '$lib/utils/markdown';
+import { getAllBlogPosts } from '$lib/data/blog-loader.server';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
-	const posts = getAllPosts();
+	const posts = getAllBlogPosts();
 	const siteUrl = 'https://jaagop.eu';
 
 	const feed = {
@@ -17,7 +16,7 @@ export const GET: RequestHandler = async () => {
 			id: `${siteUrl}/blog/${post.slug}`,
 			title: post.title,
 			content_text: post.excerpt,
-			content_html: renderMarkdown(post.content),
+			content_html: post.content, // Already converted to HTML by createBlogPost
 			url: `${siteUrl}/blog/${post.slug}`,
 			date_published: new Date(post.date).toISOString(),
 			tags: post.tags
