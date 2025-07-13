@@ -173,7 +173,7 @@ jobs:
               --settings.ci.collect.settings.chromeFlags="--no-sandbox --disable-dev-shm-usage" \
               --settings.ci.collect.outputDir="$TEMP_DIR"
           done
-          
+
           # Combine all results into main .lighthouseci directory
           mkdir -p .lighthouseci
           for i in "${!PAGES[@]}"; do
