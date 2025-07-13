@@ -1,5 +1,5 @@
 <script>
-	import BackgroundBeams from './ui/BackgroundBeams/BackgroundBeams.svelte';
+	import MeteorShower from './ui/MeteorShower/MeteorShower.svelte';
 
 	let mobileMenuOpen = false;
 
@@ -14,7 +14,7 @@
 
 <header class="hero-section">
 	<div class="hero-background">
-		<BackgroundBeams className="background-beams extended-beams" />
+		<MeteorShower className="background-beams extended-beams" />
 	</div>
 
 	<div class="hero-content">
