@@ -15,14 +15,13 @@
 	}> = [];
 
 	onMount(() => {
-		// Generate meteor configurations with wider spread
 		meteors = Array.from({ length: meteorCount }, (_, i) => ({
 			id: i,
-			left: `${Math.random() * 120 - 20}%`, // Start from various positions
-			top: `${Math.random() * 60 - 10}%`, // Random vertical start positions
+			left: `${Math.random() * 120 - 20}%`,
+			top: `${Math.random() * 60 - 10}%`,
 			animationDelay: `${Math.random() * 10}s`,
-			animationDuration: `${2.5 + Math.random() * 8}s`, // Faster for shooting star effect
-			size: `${3 + Math.random() * 2}px` // Meteor head size
+			animationDuration: `${2.5 + Math.random() * 8}s`,
+			size: `${3 + Math.random() * 2}px`
 		}));
 	});
 </script>
