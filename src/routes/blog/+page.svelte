@@ -73,7 +73,7 @@
 			</div>
 		{:else}
 			<div class="empty-state" in:fade={{ duration: 300, delay: 200 }}>
-				<h3>No posts found</h3>
+				<h2>No posts found</h2>
 				<p>No blog posts match the selected tag.</p>
 			</div>
 		{/if}
@@ -140,7 +140,7 @@
 		color: var(--color-text-paragraph);
 	}
 
-	.empty-state h3 {
+	.empty-state h2 {
 		font-size: 1.5rem;
 		color: var(--color-text);
 		margin-bottom: var(--spacing-sm);
