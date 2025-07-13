@@ -35,7 +35,7 @@ jobs:
           URL="${{ github.event.inputs.url || 'https://jaagop.eu' }}"
           echo "Running Lighthouse budget check on: $URL"
 
-          lhci collect --url="$URL" --numberOfRuns=5
+          lhci collect --url="$URL" --numberOfRuns=5 --startServerCommand=""
           lhci assert --budgetsFile=lighthouse-budget.json
           lhci upload --target=temporary-public-storage
         env:
