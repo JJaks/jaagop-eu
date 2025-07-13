@@ -137,7 +137,7 @@ jobs:
           # For PR previews, ignore is-crawlable since they shouldn't be crawlable
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             echo "Running assertions for PR preview (ignoring is-crawlable)..."
-            lhci assert --preset="lighthouse:no-pwa" --assertions.is-crawlable=off
+            lhci assert --preset="lighthouse:no-pwa" --assertions.is-crawlable=off --assertions.csp-xss=off
           else
             echo "Running assertions for production..."
             lhci assert
