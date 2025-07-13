@@ -36,7 +36,7 @@ jobs:
           echo "Running Lighthouse budget check on: $URL"
 
           lhci collect --url="$URL" --numberOfRuns=5 --startServerCommand=""
-          lhci assert --budgetsFile=lighthouse-budget.json
+          lhci assert --no-lighthouserc --budgetsFile=lighthouse-budget.json 
           lhci upload --target=temporary-public-storage
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
@@ -50,6 +50,7 @@ jobs:
           path: |
             .lighthouseci/
           retention-days: 90
+          include-hidden-files: true
 
       # Create an issue if performance degrades significantly
       - name: Create performance issue
