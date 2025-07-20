@@ -85,7 +85,7 @@
 <style>
 	/* Main content styling */
 	.main-content {
-		min-height: 100dvh;
+		min-height: 100vh;
 		background: linear-gradient(
 			to bottom,
 			rgba(0, 0, 0, 0) 0%,
