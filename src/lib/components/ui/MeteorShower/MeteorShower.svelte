@@ -3,7 +3,7 @@
 
 	export let className: string | undefined = undefined;
 	export let meteorCount: number = 8;
-	
+
 	const MIN_ANIMATION_DURATION = 2.5;
 	const MAX_ANIMATION_DURATION = 10;
 
