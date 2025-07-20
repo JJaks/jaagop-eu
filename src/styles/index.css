@@ -3,4 +3,4 @@
 /* Import CSS in the correct order */
 @import './variables.css';
 @import './global.css';
-@import './components.css';
+@import './utilities.css';

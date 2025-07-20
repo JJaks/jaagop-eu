@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { blogPosts } from '$lib/data/blog';
+import { getAllBlogPosts } from '$lib/data/blog-loader.server';
 
 const SITE_URL = 'https://jaagop.eu';
 
@@ -32,6 +32,7 @@ export const GET: RequestHandler = () => {
 	];
 
 	// Add blog posts to sitemap
+	const blogPosts = getAllBlogPosts();
 	const blogPostPages = blogPosts.map((post) => ({
 		url: `/blog/${post.slug}`,
 		lastmod: new Date(post.date).toISOString().split('T')[0],

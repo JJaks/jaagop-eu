@@ -381,10 +381,6 @@
 
 	/* Mobile optimizations */
 	@media (max-width: 768px) {
-		.hero-section {
-			height: 100dvh; /* Use dynamic viewport height on mobile */
-		}
-
 		.hero-content {
 			padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl);
 		}

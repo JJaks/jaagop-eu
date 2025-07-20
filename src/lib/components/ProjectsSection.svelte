@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProjectCard from './ProjectCard.svelte';
+	import Button from '$lib/components/ui/Button.svelte';
 	import { getFeaturedProjects } from '$lib/data/projects';
 
 	const featuredProjects = getFeaturedProjects();
@@ -18,10 +19,10 @@
 		</div>
 
 		<div class="projects-cta">
-			<a href="/projects" class="btn btn-outline will-change-transform">
-				<span>View All Projects</span>
+			<Button href="/projects" variant="outline" class="will-change-transform">
+				View All Projects
 				<svg
-					class="will-change-transform"
+					class="will-change-transform icon-arrow"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
@@ -29,7 +30,7 @@
 				>
 					<path d="M5 12h14M12 5l7 7-7 7" />
 				</svg>
-			</a>
+			</Button>
 		</div>
 	</div>
 </section>
@@ -94,37 +95,14 @@
 		margin-top: var(--spacing-2xl);
 	}
 
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-sm);
-		padding: var(--spacing-md) var(--spacing-lg);
-		border-radius: var(--radius-sm);
-		text-decoration: none;
-		font-weight: 500;
-		transition: all 0.2s ease;
-		border: 2px solid transparent;
-	}
-
-	.btn-outline {
-		background: transparent;
-		color: var(--color-primary);
-		border-color: var(--color-primary);
-	}
-
-	.btn-outline:hover {
-		background: var(--color-primary);
-		color: white;
-		transform: translateY(-1px);
-	}
-
-	.btn svg {
+	:global(.projects-cta .icon-arrow) {
 		width: 18px;
 		height: 18px;
+		margin-left: var(--spacing-xs);
 		transition: transform 0.2s ease;
 	}
 
-	.btn:hover svg {
+	:global(.projects-cta .btn:hover .icon-arrow) {
 		transform: translateX(2px);
 	}
 

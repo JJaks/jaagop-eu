@@ -140,6 +140,7 @@ html {
 }
 
 body {
+	position: fixed;
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
 	font-family: var(--font-family-base);

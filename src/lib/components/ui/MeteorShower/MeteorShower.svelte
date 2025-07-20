@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { cn } from '$lib/utils/cn';
 	import { onMount } from 'svelte';
 
 	export let className: string | undefined = undefined;
 	export let meteorCount: number = 8;
+
+	const MIN_ANIMATION_DURATION = 2.5;
+	const MAX_ANIMATION_DURATION = 10;
 
 	let meteors: Array<{
 		id: number;
@@ -15,19 +17,18 @@
 	}> = [];
 
 	onMount(() => {
-		// Generate meteor configurations with wider spread
 		meteors = Array.from({ length: meteorCount }, (_, i) => ({
 			id: i,
-			left: `${Math.random() * 120 - 20}%`, // Start from various positions
-			top: `${Math.random() * 60 - 10}%`, // Random vertical start positions
+			left: `${Math.random() * 120 - 20}%`,
+			top: `${Math.random() * 60 - 10}%`,
 			animationDelay: `${Math.random() * 10}s`,
-			animationDuration: `${1.5 + Math.random() * 3}s`, // Faster for shooting star effect
-			size: `${2 + Math.random() * 2}px` // Meteor head size
+			animationDuration: `${MIN_ANIMATION_DURATION + Math.random() * MAX_ANIMATION_DURATION}s`,
+			size: `${3 + Math.random() * 2}px`
 		}));
 	});
 </script>
 
-<div class={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}>
+<div class="absolute inset-0 overflow-hidden pointer-events-none {className || ''}">
 	{#each meteors as meteor (meteor.id)}
 		<div
 			class="meteor"
