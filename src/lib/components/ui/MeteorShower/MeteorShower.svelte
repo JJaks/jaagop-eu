@@ -3,6 +3,9 @@
 
 	export let className: string | undefined = undefined;
 	export let meteorCount: number = 8;
+	
+	const MIN_ANIMATION_DURATION = 2.5;
+	const MAX_ANIMATION_DURATION = 10;
 
 	let meteors: Array<{
 		id: number;
@@ -19,7 +22,7 @@
 			left: `${Math.random() * 120 - 20}%`,
 			top: `${Math.random() * 60 - 10}%`,
 			animationDelay: `${Math.random() * 10}s`,
-			animationDuration: `${2.5 + Math.random() * 8}s`,
+			animationDuration: `${MIN_ANIMATION_DURATION + Math.random() * MAX_ANIMATION_DURATION}s`,
 			size: `${3 + Math.random() * 2}px`
 		}));
 	});
