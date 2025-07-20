@@ -147,7 +147,7 @@ body {
 	padding: 0;
 	background: var(--gradient-primary);
 	color: var(--color-text);
-	min-height: 100vh;
+	min-height: 100svh;
 	position: relative;
 	overflow-x: hidden;
 }
