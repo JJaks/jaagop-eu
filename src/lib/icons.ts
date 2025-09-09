@@ -8,7 +8,6 @@ export interface IconProps {
 
 // Common icon components
 export const icons = {
-	// Arrow icons
 	ArrowRight: ({
 		size = 24,
 		class: className = '',
@@ -29,7 +28,6 @@ export const icons = {
 		</svg>
 	`,
 
-	// External link icon
 	ExternalLink: ({
 		size = 24,
 		class: className = '',
@@ -42,7 +40,6 @@ export const icons = {
 		</svg>
 	`,
 
-	// GitHub icon
 	GitHub: ({
 		size = 24,
 		class: className = '',
@@ -53,7 +50,6 @@ export const icons = {
 		</svg>
 	`,
 
-	// Contact icons
 	Email: ({
 		size = 24,
 		class: className = '',
@@ -77,7 +73,6 @@ export const icons = {
 		</svg>
 	`,
 
-	// Navigation icons
 	Menu: ({ size = 24, class: className = '', 'stroke-width': strokeWidth = 2 }: IconProps = {}) => `
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${strokeWidth}" class="${className}" width="${size}" height="${size}">
 			<line x1="3" y1="6" x2="21" y2="6" />
@@ -93,7 +88,6 @@ export const icons = {
 		</svg>
 	`,
 
-	// Calendar icon for work experience
 	Calendar: ({
 		size = 24,
 		class: className = '',
@@ -107,7 +101,6 @@ export const icons = {
 		</svg>
 	`,
 
-	// Tag icon for company tags
 	Tag: ({ size = 24, class: className = '', 'stroke-width': strokeWidth = 2 }: IconProps = {}) => `
 		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${strokeWidth}" class="${className}" width="${size}" height="${size}">
 			<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
@@ -116,7 +109,6 @@ export const icons = {
 	`
 };
 
-// Helper function to render icons in Svelte components
 export function renderIcon(iconName: keyof typeof icons, props: IconProps = {}): string {
 	return icons[iconName](props);
 }

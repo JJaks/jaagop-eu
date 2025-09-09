@@ -1,16 +1,11 @@
 import { createBlogPost, type BlogPost } from '$lib/utils/markdown';
 
-// Use Vite's import.meta.glob to import all markdown files at build time
-// This works both locally and in serverless environments like Vercel
 const modules = import.meta.glob('/content/blog/*.md', {
 	query: '?raw',
 	import: 'default',
 	eager: true
 }) as Record<string, string>;
 
-/**
- * Get all blog posts from imported markdown files
- */
 export function getAllBlogPosts(): BlogPost[] {
 	try {
 		const posts = Object.entries(modules)
@@ -28,9 +23,6 @@ export function getAllBlogPosts(): BlogPost[] {
 	}
 }
 
-/**
- * Get a specific blog post by slug
- */
 export function getBlogPost(slug: string): BlogPost | null {
 	try {
 		const path = `/content/blog/${slug}.md`;
@@ -47,25 +39,16 @@ export function getBlogPost(slug: string): BlogPost | null {
 	}
 }
 
-/**
- * Get featured blog posts
- */
 export function getFeaturedBlogPosts(): BlogPost[] {
 	return getAllBlogPosts().filter((post) => post.featured);
 }
 
-/**
- * Get blog posts by tag
- */
 export function getBlogPostsByTag(tag: string): BlogPost[] {
 	return getAllBlogPosts().filter((post) =>
 		post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase())
 	);
 }
 
-/**
- * Get all unique tags from blog posts
- */
 export function getAllTags(): string[] {
 	const allTags = getAllBlogPosts().flatMap((post) => post.tags);
 	return [...new Set(allTags)].sort();

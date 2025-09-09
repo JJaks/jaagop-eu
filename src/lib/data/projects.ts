@@ -9,13 +9,14 @@ import ZentriaImage from '$lib/assets/images/projects/zentria.webp';
 import JausteenusImage from '$lib/assets/images/projects/jausteenus.webp';
 import GoToAndPlayImage from '$lib/assets/images/projects/gotoandplay.webp';
 import JaSearchImage from '$lib/assets/images/projects/jasearch.webp';
+import StakeReefImage from '$lib/assets/images/projects/stakereef.webp';
 
 export interface Project {
 	id: string;
 	title: string;
 	description: string;
 	shortDescription?: string;
-	image?: string | { src: string }; // Support both string paths and imported image objects
+	image?: string | { src: string };
 	technologies: string[];
 	liveUrl?: string;
 	githubUrl?: string;
@@ -221,6 +222,20 @@ export const projects: Project[] = [
 		liveUrl: 'https://search.jaagop.eu/',
 		githubUrl: 'https://github.com/JJaks/jasearch',
 		featured: true,
+		status: 'ongoing',
+		year: '2025'
+	},
+	{
+		id: 'stakereef',
+		title: 'Stakereef',
+		description:
+			'This is a Web3 IKA chain staking platform developed for Swyke, this was as a consulting job, built with React and some usage of Tanstack. My job here was mostly to make the design come to life and help out in a big development crunch.',
+		shortDescription: 'Web3 IKA chain staking platform developer for Swyke as a consulting job',
+		image: StakeReefImage,
+		technologies: ['React', 'Tanstack', 'TypeScript', 'TailwindCSS', 'Deno', 'Docker'],
+		liveUrl: 'https://stakereef.com/',
+		githubUrl: undefined,
+		featured: false,
 		status: 'ongoing',
 		year: '2025'
 	}
