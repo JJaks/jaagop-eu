@@ -20,7 +20,6 @@ pnpm run preview
 pnpm run lint && pnpm run check && pnpm run build
 ```
 
-
 ## 📄 License
 
 This project is licensed under the MIT License.
