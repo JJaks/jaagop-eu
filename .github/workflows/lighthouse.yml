@@ -242,7 +242,7 @@ jobs:
                 console.log('All files in .lighthouseci:', files);
                 
                 if (reportFiles.length > 0) {
-                  summaryContent = `## 🚀 Lighthouse Performance Report
+                  summaryContent = `## Lighthouse Performance Report
 
             **Tested ${reportFiles.length} page(s) for commit ${context.sha.substring(0, 8)}**
 
