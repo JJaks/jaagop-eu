@@ -142,7 +142,6 @@
 <style>
 	.project-card {
 		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(10px);
 		border: 1px solid rgba(255, 255, 255, 0.15);
 		border-radius: var(--radius-lg);
 		overflow: hidden;
@@ -212,7 +211,6 @@
 		border-radius: 50%;
 		text-decoration: none;
 		transition: all 0.3s ease;
-		backdrop-filter: blur(10px);
 	}
 
 	.project-link:hover {

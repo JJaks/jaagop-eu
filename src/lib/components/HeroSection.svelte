@@ -428,7 +428,6 @@
 			left: 50%;
 			transform: translateX(-50%);
 			background: rgba(0, 0, 0, 0.95);
-			backdrop-filter: blur(10px);
 			border: 1px solid rgba(255, 255, 255, 0.1);
 			border-radius: var(--radius-md);
 			padding: var(--spacing-md);

@@ -191,7 +191,6 @@
 		padding: var(--spacing-lg);
 		border: 1px solid rgba(255, 255, 255, 0.2);
 		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(10px);
 		border-radius: var(--radius-md);
 		transition:
 			transform 0.2s ease,
