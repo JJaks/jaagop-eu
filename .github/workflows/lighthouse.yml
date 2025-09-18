@@ -100,10 +100,10 @@ jobs:
 
           # Handle assertion failure
           if [ $ASSERT_EXIT_CODE -ne 0 ]; then
-            echo "⚠️  Performance budgets not met, but continuing workflow"
+            echo "Performance budgets not met, but continuing workflow"
             echo "Check the detailed report for performance issues"
           else
-            echo "✅ All performance budgets passed!"
+            echo "All performance budgets passed!"
           fi
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
@@ -202,10 +202,10 @@ jobs:
 
           # Handle assertion failure
           if [ $ASSERT_EXIT_CODE -ne 0 ]; then
-            echo "⚠️  Performance budgets not met, but continuing workflow"
+            echo "Performance budgets not met, but continuing workflow"
             echo "Check the detailed report for performance issues"
           else
-            echo "✅ All performance budgets passed!"
+            echo "All performance budgets passed!"
           fi
 
         env:
@@ -259,12 +259,12 @@ jobs:
                       const warnAssertions = assertionResults.filter(result => result.level === 'warn' && !result.passed);
                       
                       if (failedAssertions.length > 0 || warnAssertions.length > 0) {
-                        summaryContent += `## ⚠️ Performance Issues Found
+                        summaryContent += `## Performance Issues Found
 
             `;
                         
                         if (failedAssertions.length > 0) {
-                          summaryContent += `### 🚨 **${failedAssertions.length} Assertion Issues** (Must Fix if applicable for deployment aswell)
+                          summaryContent += `### **${failedAssertions.length} Assertion Issues** (Must Fix if applicable for deployment aswell)
 
             `;
                           
@@ -284,7 +284,7 @@ jobs:
                             summaryContent += `**${page}:**
             `;
                             assertions.forEach(assertion => {
-                              summaryContent += `- ❌ **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
+                              summaryContent += `- **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
             `;
                             });
                             summaryContent += `
@@ -293,7 +293,7 @@ jobs:
                         }
                         
                         if (warnAssertions.length > 0) {
-                          summaryContent += `### ⚠️ **${warnAssertions.length} Performance Warnings** (Should Fix)
+                          summaryContent += `### **${warnAssertions.length} Performance Warnings** (Should Fix)
 
             `;
                           
@@ -313,7 +313,7 @@ jobs:
                             summaryContent += `**${page}:**
             `;
                             assertions.forEach(assertion => {
-                              summaryContent += `- ⚠️ **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
+                              summaryContent += `- **${assertion.auditTitle}** (Score: ${Math.round(assertion.actual * 100)}/100, Expected: ${Math.round(assertion.expected * 100)}/100)
             `;
                             });
                             summaryContent += `
@@ -386,11 +386,11 @@ jobs:
 
             | Category | Score |
             |----------|--------|
-            | 🔥 Performance | ${avgScores.performance}/100 |
-            | ♿ Accessibility | ${avgScores.accessibility}/100 |
-            | 💡 Best Practices | ${avgScores['best-practices']}/100 |
-            | 🔍 SEO | ${avgScores.seo}/100 |
-            | ⚡ PWA | ${avgScores.pwa || 'N/A'}/100 |
+            | Performance | ${avgScores.performance}/100 |
+            | Accessibility | ${avgScores.accessibility}/100 |
+            | Best Practices | ${avgScores['best-practices']}/100 |
+            | SEO | ${avgScores.seo}/100 |
+            | PWA | ${avgScores.pwa || 'N/A'}/100 |
 
             `;
                   });
@@ -398,14 +398,14 @@ jobs:
               }
               
               if (!summaryContent) {
-                summaryContent = `## 🚀 Lighthouse Performance Report
+                summaryContent = `## Lighthouse Performance Report
                 
                 Lighthouse CI completed for commit ${context.sha.substring(0, 8)}.
                 Check the [workflow run](${context.payload.pull_request.html_url}/checks) for detailed results.
                 `;
               }
             } catch (error) {
-              summaryContent = `## 🚀 Lighthouse Performance Report
+              summaryContent = `## Lighthouse Performance Report
               
               Lighthouse CI completed for commit ${context.sha.substring(0, 8)}.
               There was an issue parsing the results. Check the [workflow run](${context.payload.pull_request.html_url}/checks) for details.
