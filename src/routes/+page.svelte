@@ -56,7 +56,7 @@
 					<h3>Frontend</h3>
 					<p>
 						React, Svelte, AstroJS, Vue, Sveltekit, React Native, TypeScript, CSS Architecture,
-						Accessibility
+						Tailwind, Accessibility
 					</p>
 				</div>
 				<div class="skill-item will-change-transform">
