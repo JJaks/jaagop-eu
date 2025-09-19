@@ -95,7 +95,6 @@
 			rgba(0, 0, 0, 0.2) 100%
 		);
 		position: relative;
-		z-index: 5;
 		margin-top: 0;
 	}
 
@@ -191,7 +190,6 @@
 		padding: var(--spacing-lg);
 		border: 1px solid rgba(255, 255, 255, 0.2);
 		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(10px);
 		border-radius: var(--radius-md);
 		transition:
 			transform 0.2s ease,

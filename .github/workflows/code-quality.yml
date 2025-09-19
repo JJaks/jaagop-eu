@@ -28,8 +28,7 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: latest
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -52,8 +51,7 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: latest
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -80,8 +78,7 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: latest
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -112,8 +109,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: latest
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -156,8 +151,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: latest
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -194,18 +187,18 @@ jobs:
       - name: Check quality gate
         run: |
           if [[ "${{ needs.lint-and-format.result }}" != "success" ]]; then
-            echo "❌ Lint and format check failed"
+            echo "Lint and format check failed"
             exit 1
           fi
           if [[ "${{ needs.type-check.result }}" != "success" ]]; then
-            echo "❌ TypeScript check failed"
+            echo "TypeScript check failed"
             exit 1
           fi
           if [[ "${{ needs.build-test.result }}" != "success" ]]; then
-            echo "❌ Build test failed"
+            echo "Build test failed"
             exit 1
           fi
           if [[ "${{ needs.security-audit.result }}" != "success" ]]; then
-            echo "⚠️  Security audit found issues (non-blocking)"
+            echo "Security audit found issues (non-blocking)"
           fi
-          echo "✅ All quality checks passed!"
+          echo "All quality checks passed!"

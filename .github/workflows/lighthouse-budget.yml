@@ -58,7 +58,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const title = `🚨 Performance Budget Violation - ${new Date().toISOString().split('T')[0]}`;
+            const title = `Performance Budget Violation - ${new Date().toISOString().split('T')[0]}`;
             const body = `## Performance Budget Violation Detected
 
             The scheduled Lighthouse performance check has detected violations of our performance budget.

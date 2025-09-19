@@ -21,7 +21,6 @@
 <style>
 	.site-footer {
 		background: rgba(0, 0, 0, 0.3);
-		backdrop-filter: blur(10px);
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		padding: var(--spacing-lg) 0;
 	}

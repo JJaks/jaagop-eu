@@ -22,7 +22,6 @@
 		font-weight: 500;
 		cursor: pointer;
 		transition: all 0.3s ease;
-		backdrop-filter: blur(10px);
 		position: relative;
 		overflow: hidden;
 		font-family: inherit;

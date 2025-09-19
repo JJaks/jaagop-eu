@@ -284,7 +284,6 @@
 
 	.experience-item {
 		background: rgba(255, 255, 255, 0.05);
-		backdrop-filter: blur(10px);
 		border: 1px solid rgba(255, 255, 255, 0.15);
 		border-left: 3px solid rgba(255, 255, 255, 0.3);
 		border-radius: var(--radius-md);
