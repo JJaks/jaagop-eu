@@ -506,8 +506,6 @@
 			padding-left: var(--spacing-md);
 		}
 
-
-
 		.experience-header {
 			flex-direction: column;
 			align-items: flex-start;
