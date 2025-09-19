@@ -95,7 +95,6 @@
 			rgba(0, 0, 0, 0.2) 100%
 		);
 		position: relative;
-		z-index: 5;
 		margin-top: 0;
 	}
 
