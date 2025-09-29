@@ -506,14 +506,6 @@
 			padding-left: var(--spacing-md);
 		}
 
-		.timeline-track {
-			left: -2px;
-		}
-
-		.timeline-beam {
-			left: -2px;
-		}
-
 		.experience-header {
 			flex-direction: column;
 			align-items: flex-start;

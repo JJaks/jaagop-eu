@@ -236,7 +236,7 @@ export const projects: Project[] = [
 		liveUrl: 'https://stakereef.com/',
 		githubUrl: undefined,
 		featured: false,
-		status: 'ongoing',
+		status: 'completed',
 		year: '2025'
 	}
 ];

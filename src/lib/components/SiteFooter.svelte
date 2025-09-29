@@ -1,5 +1,4 @@
-<script>
-	// Get version from Vite's define
+<script lang="ts">
 	const version = __APP_VERSION__;
 </script>
 

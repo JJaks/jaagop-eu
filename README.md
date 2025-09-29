@@ -1,6 +1,12 @@
 # jaagop.eu Portfolio
 
-A modern, high-performance portfo### 📊 Performance Monitoring
+Welcome to my personal portfolio website repository!
+
+## Versioning
+
+This project uses Calver versioning (read: something that actually makes sense for a personal website). The version format is `YYYY.MM.PATCH`.
+
+## Performance Monitoring
 
 - Automated Lighthouse testing in CI/CD
 - Performance budgets to catch regressions
