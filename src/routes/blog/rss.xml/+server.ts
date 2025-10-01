@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from '$lib/data/blog-loader.server';
+import { getAllBlogPosts } from '$lib/data/blog-loader';
 import { renderMarkdown } from '$lib/utils/markdown';
 import type { RequestHandler } from './$types';
 
