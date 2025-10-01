@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from '$lib/data/blog-loader.server';
+import { getAllBlogPosts } from '$lib/data/blog-loader';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {

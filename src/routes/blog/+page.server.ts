@@ -1,4 +1,4 @@
-import { getAllBlogPosts, getAllTags } from '$lib/data/blog-loader.server';
+import { getAllBlogPosts, getAllTags } from '$lib/data/blog-loader';
 
 export const load = async () => {
 	const posts = getAllBlogPosts();

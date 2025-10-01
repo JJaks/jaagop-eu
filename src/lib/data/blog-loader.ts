@@ -10,7 +10,6 @@ export function getAllBlogPosts(): BlogPost[] {
 	try {
 		const posts = Object.entries(modules)
 			.map(([path, content]) => {
-				// Extract slug from file path
 				const slug = path.replace('/content/blog/', '').replace('.md', '');
 				return createBlogPost(slug, content as string);
 			})

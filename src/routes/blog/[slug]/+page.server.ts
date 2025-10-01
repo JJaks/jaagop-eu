@@ -1,4 +1,4 @@
-import { getBlogPost } from '$lib/data/blog-loader.server';
+import { getBlogPost } from '$lib/data/blog-loader';
 import { error } from '@sveltejs/kit';
 
 export const load = ({ params }: { params: { slug: string } }) => {
