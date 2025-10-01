@@ -2,23 +2,9 @@
 	import BlogPostCard from './BlogPostCard.svelte';
 	import Button from '$lib/components/ui/Button.svelte';
 	import type { BlogPost } from '$lib/utils/markdown';
+	import { getFeaturedBlogPosts } from '$lib/data/blog-loader';
 
-	// Static featured posts for now - could be passed as props from parent
-	const featuredPosts: BlogPost[] = [
-		{
-			slug: 'building-modern-web-applications-with-sveltekit',
-			title: 'Building Modern Web Applications with SvelteKit',
-			description:
-				'Exploring the benefits of SvelteKit for modern web development, including performance optimizations and developer experience.',
-			date: '2024-12-15',
-			readTime: 5,
-			tags: ['SvelteKit', 'JavaScript', 'Performance', 'Web Development'],
-			featured: true,
-			content: '',
-			excerpt:
-				'SvelteKit has revolutionized how we approach modern web development. Unlike traditional frameworks that do most of their work in the browser, Svelte shifts much of that work to compile time...'
-		}
-	];
+	const featuredPosts: BlogPost[] = getFeaturedBlogPosts();
 </script>
 
 <section class="blog-section" id="blog">
