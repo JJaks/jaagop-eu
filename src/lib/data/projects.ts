@@ -214,11 +214,19 @@ export const projects: Project[] = [
 		id: 'jasearch',
 		title: 'JaSearch',
 		description:
-			'This is my personal movie browsing search engine that uses the TMDB API, and custom backend implementing support for Jellyfin and TeliaTV APIs. Made with AstroJS, Typescript, SCSS, Node.js and ExpressJS with Docker image deployment.',
+			'This is my personal movie browsing search engine that uses the TMDB API, and custom backend implementing support for Jellyfin and TeliaTV APIs. Made with Sveltekit, Typescript, Tailwind, Node.js and ExpressJS with Docker image deployment.',
 		shortDescription:
 			'Personal movie browsing search engine using TMDB API, Jellyfin and TeliaTV APIs.',
 		image: JaSearchImage,
-		technologies: ['AstroJS', 'Svelte', 'TypeScript', 'SCSS', 'Node.js', 'ExpressJS', 'Docker'],
+		technologies: [
+			'Svelekit',
+			'Svelte',
+			'TypeScript',
+			'TailwindCSS',
+			'Node.js',
+			'ExpressJS',
+			'Docker'
+		],
 		liveUrl: 'https://search.jaagop.eu/',
 		githubUrl: 'https://github.com/JJaks/jasearch',
 		featured: true,
