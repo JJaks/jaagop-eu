@@ -11,7 +11,6 @@ I was one of those people who hated Tailwind. I really thought it was something 
 
 Welp, I got the chance to properly use TailWind in production setting and I have to admit, I was wrong. Tailwind is pretty great. Here are some of the reasons why I changed my mind.
 
-
 ## Performance Benefits
 
 One of the most compelling reasons to choose Tailwind is its performance characteristics:
@@ -24,19 +23,18 @@ Traditional CSS frameworks often come with a lot of unused styles that bloat you
 /* Traditional CSS approach */
 /* styles.css */
 .button {
-    background-color: blue;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+	background-color: blue;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
 }
 .card {
-    box-shadow: 0 4px 6px rgba(0, 0,
-0, 0.1);
-    padding: 20px;
-    border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	border-radius: 10px;
 }
 /* ... many more styles ... */
-``` 
+```
 
 ```css/* Tailwind CSS approach */
 /* tailwind.css */
@@ -84,7 +82,7 @@ In my experience building production applications with Tailwind CSS, I've consis
 - Faster initial page loads
 - Improved developer productivity
 - Better consistency in design
-If you're starting a new project, I highly recommend giving Tailwind CSS a try. It has certainly changed my perspective on utility-first CSS frameworks and has proven to be a valuable tool in modern web development.
+  If you're starting a new project, I highly recommend giving Tailwind CSS a try. It has certainly changed my perspective on utility-first CSS frameworks and has proven to be a valuable tool in modern web development.
 
 ## Additional Resources
 
