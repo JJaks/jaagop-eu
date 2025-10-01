@@ -17,19 +17,6 @@
 			content: '',
 			excerpt:
 				'SvelteKit has revolutionized how we approach modern web development. Unlike traditional frameworks that do most of their work in the browser, Svelte shifts much of that work to compile time...'
-		},
-		{
-			slug: 'mobile-development-with-react-native',
-			title: 'Mobile Development with React Native: Lessons Learned',
-			description:
-				'Key insights and best practices from building cross-platform mobile applications with React Native.',
-			date: '2024-11-20',
-			readTime: 8,
-			tags: ['React Native', 'Mobile Development', 'iOS', 'Android'],
-			featured: false,
-			content: '',
-			excerpt:
-				"React Native has been my go-to framework for cross-platform mobile development. After building several production applications, I've learned valuable lessons about what works well..."
 		}
 	];
 </script>
