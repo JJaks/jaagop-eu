@@ -16,7 +16,7 @@ export const GET: RequestHandler = async () => {
 			id: `${siteUrl}/blog/${post.slug}`,
 			title: post.title,
 			content_text: post.excerpt,
-			content_html: post.content, // Already converted to HTML by createBlogPost
+			content_html: post.content,
 			url: `${siteUrl}/blog/${post.slug}`,
 			date_published: new Date(post.date).toISOString(),
 			tags: post.tags
