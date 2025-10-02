@@ -7,6 +7,7 @@ export interface IconProps {
 }
 
 // Common icon components
+// TODO: Replace with lucide
 export const icons = {
 	ArrowRight: ({
 		size = 24,
