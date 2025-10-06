@@ -1,6 +1,6 @@
 # jaagop.eu Portfolio
 
-Welcome to my personal portfolio website repository!
+Welcome to my personal portfolio website repository.
 
 ## Versioning
 
