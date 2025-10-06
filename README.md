@@ -20,10 +20,10 @@ This project uses Calver versioning (read: something that actually makes sense f
 pnpm run build
 
 # Verify build with preview
-pnpm run preview
+pnpm preview
 
 # Run full quality checks
-pnpm run lint && pnpm run check && pnpm run build
+pnpm lint && pnpm check && pnpm build
 ```
 
 ## 📄 License
