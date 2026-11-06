@@ -5,26 +5,24 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import { fade } from 'svelte/transition';
 
-	export let data;
+	let { data } = $props();
 
-	const allPosts = data.posts;
-	const allTags = data.tags;
+	const allPosts = $derived(data.posts);
+	const allTags = $derived(data.tags);
 
-	let selectedTag: string | 'all' = 'all';
-	let filteredPosts = allPosts;
+	let selectedTag: string | 'all' = $state('all');
+
+	// Client-side filtering since we have the posts data
+	const filteredPosts = $derived(
+		selectedTag === 'all'
+			? allPosts
+			: allPosts.filter((post) =>
+					post.tags.some((postTag: string) => postTag.toLowerCase() === selectedTag.toLowerCase())
+				)
+	);
 
 	const filterPosts = (tag: string | 'all') => {
-		if (selectedTag === tag) return;
 		selectedTag = tag;
-
-		if (tag === 'all') {
-			filteredPosts = allPosts;
-		} else {
-			// Client-side filtering since we have the posts data
-			filteredPosts = allPosts.filter((post) =>
-				post.tags.some((postTag: string) => postTag.toLowerCase() === tag.toLowerCase())
-			);
-		}
 	};
 </script>
 
@@ -48,7 +46,7 @@
 			<FilterButton
 				active={selectedTag === 'all'}
 				count={allPosts.length}
-				on:click={() => filterPosts('all')}
+				onclick={() => filterPosts('all')}
 			>
 				All Posts
 			</FilterButton>
@@ -58,7 +56,7 @@
 					count={allPosts.filter((post) =>
 						post.tags.some((postTag) => postTag.toLowerCase() === tag.toLowerCase())
 					).length}
-					on:click={() => filterPosts(tag)}
+					onclick={() => filterPosts(tag)}
 				>
 					{tag}
 				</FilterButton>

@@ -1,12 +1,20 @@
 <script lang="ts">
-	export let active = false;
-	export let count: number | undefined = undefined;
-	let className = '';
-	export { className as class };
+	import type { Snippet } from 'svelte';
+	import type { MouseEventHandler } from 'svelte/elements';
+
+	interface Props {
+		active?: boolean;
+		count?: number;
+		class?: string;
+		onclick?: MouseEventHandler<HTMLButtonElement>;
+		children: Snippet;
+	}
+
+	let { active = false, count, class: className = '', onclick, children }: Props = $props();
 </script>
 
-<button class="filter-btn {className}" class:active on:click>
-	<slot />
+<button class="filter-btn {className}" class:active {onclick}>
+	{@render children()}
 	{#if count !== undefined}
 		({count})
 	{/if}

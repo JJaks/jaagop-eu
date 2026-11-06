@@ -1,23 +1,37 @@
 <script lang="ts">
-	export let title: string = 'Jaagop Janson - Senior Software Developer';
-	export let description: string =
-		'Senior Software Developer specializing in web applications, mobile development, and modern tech stacks.';
-	export let keywords: string =
-		'Jaagop Janson, software developer, web development, TypeScript, React, Kotlin, Swift, portfolio';
-	export let url: string = 'https://jaagop.eu';
-	export let image: string = 'https://jaagop.eu/og-image.jpg';
-	export let type: string = 'website';
-	export let article: boolean = false;
-	export let publishedTime: string | undefined = undefined;
-	export let modifiedTime: string | undefined = undefined;
-	export let author: string = 'Jaagop Janson';
-	export let tags: string[] = [];
+	interface Props {
+		title?: string;
+		description?: string;
+		keywords?: string;
+		url?: string;
+		image?: string;
+		type?: string;
+		article?: boolean;
+		publishedTime?: string;
+		modifiedTime?: string;
+		author?: string;
+		tags?: string[];
+	}
+
+	let {
+		title = 'Jaagop Janson - Senior Software Developer',
+		description = 'Senior Software Developer specializing in web applications, mobile development, and modern tech stacks.',
+		keywords = 'Jaagop Janson, software developer, web development, TypeScript, React, Kotlin, Swift, portfolio',
+		url = 'https://jaagop.eu',
+		image = 'https://jaagop.eu/og-image.jpg',
+		type = 'website',
+		article = false,
+		publishedTime,
+		modifiedTime,
+		author = 'Jaagop Janson',
+		tags = []
+	}: Props = $props();
 
 	// Construct full URL if relative path provided
-	$: fullUrl = url.startsWith('http') ? url : `https://jaagop.eu${url}`;
+	let fullUrl = $derived(url.startsWith('http') ? url : `https://jaagop.eu${url}`);
 
 	// Combine default keywords with page-specific tags
-	$: allKeywords = tags.length > 0 ? `${keywords}, ${tags.join(', ')}` : keywords;
+	let allKeywords = $derived(tags.length > 0 ? `${keywords}, ${tags.join(', ')}` : keywords);
 </script>
 
 <svelte:head>

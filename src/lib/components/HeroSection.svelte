@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
 	import MeteorShower from './ui/MeteorShower/MeteorShower.svelte';
 
-	let mobileMenuOpen = false;
+	let mobileMenuOpen = $state(false);
 
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
@@ -36,7 +36,7 @@
 			<div class="mobile-nav">
 				<button
 					class="nav-brand-button"
-					on:click={toggleMobileMenu}
+					onclick={toggleMobileMenu}
 					aria-label="Toggle navigation menu"
 					aria-expanded={mobileMenuOpen}
 				>
@@ -45,11 +45,11 @@
 
 				{#if mobileMenuOpen}
 					<nav class="mobile-menu">
-						<a href="#about" on:click={closeMobileMenu}>About</a>
-						<a href="#experience" on:click={closeMobileMenu}>Experience</a>
-						<a href="#projects" on:click={closeMobileMenu}>Projects</a>
-						<a href="#contact" on:click={closeMobileMenu}>Contact</a>
-						<a href="/blog" on:click={closeMobileMenu}>Blog</a>
+						<a href="#about" onclick={closeMobileMenu}>About</a>
+						<a href="#experience" onclick={closeMobileMenu}>Experience</a>
+						<a href="#projects" onclick={closeMobileMenu}>Projects</a>
+						<a href="#contact" onclick={closeMobileMenu}>Contact</a>
+						<a href="/blog" onclick={closeMobileMenu}>Blog</a>
 					</nav>
 				{/if}
 			</div>

@@ -5,10 +5,10 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 
-	export let data: PageData;
-	$: ({ post } = data);
+	let { data }: { data: PageData } = $props();
+	let post = $derived(data.post);
 
-	$: renderedContent = renderMarkdown(post.content);
+	let renderedContent = $derived(renderMarkdown(post.content));
 </script>
 
 <SEO

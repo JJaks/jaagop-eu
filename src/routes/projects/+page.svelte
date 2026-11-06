@@ -8,18 +8,16 @@
 
 	const allProjects = getAllProjects();
 
-	let selectedFilter: 'all' | Project['status'] = 'all';
-	let filteredProjects = allProjects;
+	let selectedFilter: 'all' | Project['status'] = $state('all');
+
+	const filteredProjects = $derived(
+		selectedFilter === 'all'
+			? allProjects
+			: allProjects.filter((project) => project.status === selectedFilter)
+	);
 
 	const filterProjects = (filter: 'all' | Project['status']) => {
-		if (selectedFilter === filter) return;
 		selectedFilter = filter;
-
-		if (filter === 'all') {
-			filteredProjects = allProjects;
-		} else {
-			filteredProjects = allProjects.filter((project) => project.status === filter);
-		}
 	};
 </script>
 
@@ -44,28 +42,28 @@
 			<button
 				class="filter-btn"
 				class:active={selectedFilter === 'all'}
-				on:click={() => filterProjects('all')}
+				onclick={() => filterProjects('all')}
 			>
 				All Projects ({allProjects.length})
 			</button>
 			<button
 				class="filter-btn"
 				class:active={selectedFilter === 'completed'}
-				on:click={() => filterProjects('completed')}
+				onclick={() => filterProjects('completed')}
 			>
 				Completed ({allProjects.filter((p) => p.status === 'completed').length})
 			</button>
 			<button
 				class="filter-btn"
 				class:active={selectedFilter === 'ongoing'}
-				on:click={() => filterProjects('ongoing')}
+				onclick={() => filterProjects('ongoing')}
 			>
 				In Progress ({allProjects.filter((p) => p.status === 'ongoing').length})
 			</button>
 			<button
 				class="filter-btn"
 				class:active={selectedFilter === 'planning'}
-				on:click={() => filterProjects('planning')}
+				onclick={() => filterProjects('planning')}
 			>
 				Planning ({allProjects.filter((p) => p.status === 'planning').length})
 			</button>

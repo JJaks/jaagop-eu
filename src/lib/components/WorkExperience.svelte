@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import Tag from '$lib/components/ui/Tag.svelte';
 
-	export let experiences = [
+	const experiences = [
 		{
 			title: 'Senior Software Developer',
 			company: 'Telia Eesti AS',
@@ -54,8 +54,8 @@
 		}
 	];
 
-	let timelineBeam: HTMLElement;
-	let experienceItems: HTMLElement[] = [];
+	let timelineBeam: HTMLElement | undefined = $state();
+	let experienceItems: HTMLElement[] = $state([]);
 
 	onMount(() => {
 		const setupExperience = () => {

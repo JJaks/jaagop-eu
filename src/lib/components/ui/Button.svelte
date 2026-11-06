@@ -1,10 +1,26 @@
 <script lang="ts">
-	export let variant: 'outline' | 'solid' = 'outline';
-	export let size: 'sm' | 'md' | 'lg' = 'md';
-	export let href: string | undefined = undefined;
-	export let disabled = false;
-	let className = '';
-	export { className as class };
+	import type { Snippet } from 'svelte';
+	import type { MouseEventHandler } from 'svelte/elements';
+
+	interface Props {
+		variant?: 'outline' | 'solid';
+		size?: 'sm' | 'md' | 'lg';
+		href?: string;
+		disabled?: boolean;
+		class?: string;
+		onclick?: MouseEventHandler<HTMLButtonElement>;
+		children: Snippet;
+	}
+
+	let {
+		variant = 'outline',
+		size = 'md',
+		href,
+		disabled = false,
+		class: className = '',
+		onclick,
+		children
+	}: Props = $props();
 
 	const sizeClasses = {
 		sm: 'btn-sm',
@@ -26,11 +42,15 @@
 		role="button"
 		tabindex={disabled ? -1 : 0}
 	>
-		<slot />
+		{@render children()}
 	</a>
 {:else}
-	<button class="btn {variantClasses[variant]} {sizeClasses[size]} {className}" {disabled} on:click>
-		<slot />
+	<button
+		class="btn {variantClasses[variant]} {sizeClasses[size]} {className}"
+		{disabled}
+		{onclick}
+	>
+		{@render children()}
 	</button>
 {/if}
 
