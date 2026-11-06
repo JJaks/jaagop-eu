@@ -1,5 +1,5 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { getAllBlogPosts } from '$lib/data/blog-loader';
+import { getAllBlogPosts } from '#lib/data/blog-loader.ts';
 
 const SITE_URL = 'https://jaagop.eu';
 

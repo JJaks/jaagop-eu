@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Project } from '$lib/data/projects';
-	import Button from '$lib/components/ui/Button.svelte';
-	import Tag from '$lib/components/ui/Tag.svelte';
+	import type { Project } from '#lib/data/projects.ts';
+	import Button from '#lib/components/ui/Button.svelte';
+	import Tag from '#lib/components/ui/Tag.svelte';
 
 	interface Props {
 		project: Project;

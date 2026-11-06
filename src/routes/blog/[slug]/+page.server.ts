@@ -1,11 +1,11 @@
-import { getBlogPost } from '$lib/data/blog-loader';
+import { getBlogPost } from '#lib/data/blog-loader.ts';
 import { error } from '@sveltejs/kit';
 
 export const load = ({ params }: { params: { slug: string } }) => {
 	const post = getBlogPost(params.slug);
 
 	if (!post) {
-		throw error(404, 'Blog post not found');
+		error(404, 'Blog post not found');
 	}
 
 	return {

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import BlogPostCard from '$lib/components/BlogPostCard.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import FilterButton from '$lib/components/ui/FilterButton.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import BlogPostCard from '#lib/components/BlogPostCard.svelte';
+	import Button from '#lib/components/ui/Button.svelte';
+	import FilterButton from '#lib/components/ui/FilterButton.svelte';
+	import SEO from '#lib/components/SEO.svelte';
 	import { fade } from 'svelte/transition';
 
 	let { data } = $props();

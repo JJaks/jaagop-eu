@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Tag from '$lib/components/ui/Tag.svelte';
+	import Tag from '#lib/components/ui/Tag.svelte';
 
 	const experiences = [
 		{

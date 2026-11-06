@@ -1,4 +1,4 @@
-import { createBlogPost, type BlogPost } from '$lib/utils/markdown';
+import { createBlogPost, type BlogPost } from '#lib/utils/markdown.ts';
 
 const modules = import.meta.glob('/content/blog/*.md', {
 	query: '?raw',

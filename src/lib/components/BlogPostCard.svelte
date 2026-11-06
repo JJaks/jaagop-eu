@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { BlogPost } from '$lib/utils/markdown';
-	import Card from '$lib/components/ui/Card.svelte';
-	import Tag from '$lib/components/ui/Tag.svelte';
-	import { formatDate } from '$lib/utils/date';
+	import type { BlogPost } from '#lib/utils/markdown.ts';
+	import Card from '#lib/components/ui/Card.svelte';
+	import Tag from '#lib/components/ui/Tag.svelte';
+	import { formatDate } from '#lib/utils/date.ts';
 
 	let { post }: { post: BlogPost } = $props();
 </script>

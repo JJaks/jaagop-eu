@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ProjectCard from './ProjectCard.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import { getFeaturedProjects } from '$lib/data/projects';
+	import Button from '#lib/components/ui/Button.svelte';
+	import { getFeaturedProjects } from '#lib/data/projects.ts';
 
 	const featuredProjects = getFeaturedProjects();
 </script>

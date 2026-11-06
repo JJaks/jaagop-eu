@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { formatDate } from '$lib/utils/date';
-	import Button from '$lib/components/ui/Button.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import { formatDate } from '#lib/utils/date.ts';
+	import Button from '#lib/components/ui/Button.svelte';
+	import SEO from '#lib/components/SEO.svelte';
 
 	let { data }: { data: PageData } = $props();
 	let post = $derived(data.post);

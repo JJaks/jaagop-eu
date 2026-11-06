@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from '$lib/data/blog-loader';
+import { getAllBlogPosts } from '#lib/data/blog-loader.ts';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
