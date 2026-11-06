@@ -1,14 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { formatDate } from '$lib/utils/date';
-	import { renderMarkdown } from '$lib/utils/markdown';
 	import Button from '$lib/components/ui/Button.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 
 	let { data }: { data: PageData } = $props();
 	let post = $derived(data.post);
-
-	let renderedContent = $derived(renderMarkdown(post.content));
 </script>
 
 <SEO
@@ -48,7 +45,7 @@
 
 			<div class="post-content">
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-				{@html renderedContent}
+				{@html post.content}
 			</div>
 		</article>
 
