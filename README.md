@@ -4,7 +4,12 @@ Welcome to my personal portfolio website repository.
 
 ## Versioning
 
-This project uses Calver versioning (read: something that actually makes sense for a personal website). The version format is `YYYY.MM.DD`.
+This project uses Calver versioning (read: something that actually makes sense for a personal website). The version format is `YYYY.M.D[.patch]`, see [docs/VERSIONING.md](docs/VERSIONING.md).
+
+## Requirements
+
+- Node.js 26 (see `.node-version`)
+- pnpm 12 (pinned via `packageManager` in `package.json`)
 
 ## Performance Monitoring
 
