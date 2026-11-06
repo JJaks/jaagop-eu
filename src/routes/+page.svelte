@@ -1,11 +1,11 @@
 <script lang="ts">
-	import HeroSection from '$lib/components/HeroSection.svelte';
-	import WorkExperience from '$lib/components/WorkExperience.svelte';
-	import ProjectsSection from '$lib/components/ProjectsSection.svelte';
-	import ContactSection from '$lib/components/ContactSection.svelte';
-	import SiteFooter from '$lib/components/SiteFooter.svelte';
-	import BlogSection from '$lib/components/BlogSection.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import HeroSection from '#lib/components/HeroSection.svelte';
+	import WorkExperience from '#lib/components/WorkExperience.svelte';
+	import ProjectsSection from '#lib/components/ProjectsSection.svelte';
+	import ContactSection from '#lib/components/ContactSection.svelte';
+	import SiteFooter from '#lib/components/SiteFooter.svelte';
+	import BlogSection from '#lib/components/BlogSection.svelte';
+	import SEO from '#lib/components/SEO.svelte';
 
 	function calculateAge(birthDate: string) {
 		const today = new Date();

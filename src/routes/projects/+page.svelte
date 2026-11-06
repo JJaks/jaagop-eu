@@ -1,10 +1,10 @@
 <script lang="ts">
-	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import SEO from '$lib/components/SEO.svelte';
+	import ProjectCard from '#lib/components/ProjectCard.svelte';
+	import Button from '#lib/components/ui/Button.svelte';
+	import SEO from '#lib/components/SEO.svelte';
 	import { fade, scale } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
-	import { getAllProjects, type Project } from '$lib/data/projects';
+	import { getAllProjects, type Project } from '#lib/data/projects.ts';
 
 	const allProjects = getAllProjects();
 

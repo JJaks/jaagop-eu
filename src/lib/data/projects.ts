@@ -1,15 +1,15 @@
-import MactaBeautyImage from '$lib/assets/images/projects/mactabeauty.webp';
-import ActyCareerPageImage from '$lib/assets/images/projects/acty_career.webp';
-import DeleitImage from '$lib/assets/images/projects/deleit.webp';
-import UrlShorteningImage from '$lib/assets/images/projects/url_shortener.webp';
-import SalomeTKImage from '$lib/assets/images/projects/salometk.webp';
-import TeliaTVImage from '$lib/assets/images/projects/teliatv.webp';
-import KapitaliGruppImage from '$lib/assets/images/projects/kapitaligrupp.webp';
-import ZentriaImage from '$lib/assets/images/projects/zentria.webp';
-import JausteenusImage from '$lib/assets/images/projects/jausteenus.webp';
-import GoToAndPlayImage from '$lib/assets/images/projects/gotoandplay.webp';
-import JaSearchImage from '$lib/assets/images/projects/jasearch.webp';
-import StakeReefImage from '$lib/assets/images/projects/stakereef.webp';
+import MactaBeautyImage from '#lib/assets/images/projects/mactabeauty.webp';
+import ActyCareerPageImage from '#lib/assets/images/projects/acty_career.webp';
+import DeleitImage from '#lib/assets/images/projects/deleit.webp';
+import UrlShorteningImage from '#lib/assets/images/projects/url_shortener.webp';
+import SalomeTKImage from '#lib/assets/images/projects/salometk.webp';
+import TeliaTVImage from '#lib/assets/images/projects/teliatv.webp';
+import KapitaliGruppImage from '#lib/assets/images/projects/kapitaligrupp.webp';
+import ZentriaImage from '#lib/assets/images/projects/zentria.webp';
+import JausteenusImage from '#lib/assets/images/projects/jausteenus.webp';
+import GoToAndPlayImage from '#lib/assets/images/projects/gotoandplay.webp';
+import JaSearchImage from '#lib/assets/images/projects/jasearch.webp';
+import StakeReefImage from '#lib/assets/images/projects/stakereef.webp';
 
 export interface Project {
 	id: string;

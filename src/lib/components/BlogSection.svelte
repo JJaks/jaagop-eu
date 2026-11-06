@@ -1,8 +1,8 @@
 <script lang="ts">
 	import BlogPostCard from './BlogPostCard.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import type { BlogPost } from '$lib/utils/markdown';
-	import { getFeaturedBlogPosts } from '$lib/data/blog-loader';
+	import Button from '#lib/components/ui/Button.svelte';
+	import type { BlogPost } from '#lib/utils/markdown.ts';
+	import { getFeaturedBlogPosts } from '#lib/data/blog-loader.ts';
 
 	const featuredPosts: BlogPost[] = getFeaturedBlogPosts();
 </script>
