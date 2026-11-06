@@ -94,7 +94,7 @@ function checkLighthouseCI() {
 	} catch {
 		console.log('📦 Installing Lighthouse CI...');
 		try {
-			execSync('npm install -g @lhci/cli@0.12.x', { stdio: 'inherit' });
+			execSync('npm install -g @lhci/cli@0.16.x', { stdio: 'inherit' });
 			return true;
 		} catch {
 			console.error('❌ Failed to install Lighthouse CI');
