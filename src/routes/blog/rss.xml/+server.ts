@@ -1,5 +1,4 @@
 import { getAllBlogPosts } from '$lib/data/blog-loader';
-import { renderMarkdown } from '$lib/utils/markdown';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
@@ -21,7 +20,7 @@ export const GET: RequestHandler = async () => {
 		<item>
 			<title><![CDATA[${post.title}]]></title>
 			<description><![CDATA[${post.excerpt}]]></description>
-			<content:encoded><![CDATA[${renderMarkdown(post.content)}]]></content:encoded>
+			<content:encoded><![CDATA[${post.content}]]></content:encoded>
 			<link>${siteUrl}/blog/${post.slug}</link>
 			<guid isPermaLink="true">${siteUrl}/blog/${post.slug}</guid>
 			<pubDate>${new Date(post.date).toUTCString()}</pubDate>
