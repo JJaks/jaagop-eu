@@ -1,22 +1,38 @@
 <script lang="ts">
-	export let variant: 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'info' =
-		'primary';
-	export let size: 'sm' | 'md' = 'sm';
-	export let href: string | undefined = undefined;
-	export let clickable = false;
+	import type { Snippet } from 'svelte';
+
+	interface Props {
+		variant?: 'primary' | 'secondary' | 'muted' | 'success' | 'warning' | 'info';
+		size?: 'sm' | 'md';
+		href?: string;
+		clickable?: boolean;
+		onclick?: (event: MouseEvent) => void;
+		onkeydown?: (event: KeyboardEvent) => void;
+		children: Snippet;
+	}
+
+	let {
+		variant = 'primary',
+		size = 'sm',
+		href,
+		clickable = false,
+		onclick,
+		onkeydown,
+		children
+	}: Props = $props();
 </script>
 
 {#if href}
-	<a {href} class="tag tag-{variant} tag-{size}" class:clickable on:click on:keydown>
-		<slot />
+	<a {href} class="tag tag-{variant} tag-{size}" class:clickable {onclick} {onkeydown}>
+		{@render children()}
 	</a>
 {:else if clickable}
-	<button type="button" class="tag tag-{variant} tag-{size}" class:clickable on:click on:keydown>
-		<slot />
+	<button type="button" class="tag tag-{variant} tag-{size}" class:clickable {onclick} {onkeydown}>
+		{@render children()}
 	</button>
 {:else}
 	<span class="tag tag-{variant} tag-{size}">
-		<slot />
+		{@render children()}
 	</span>
 {/if}
 

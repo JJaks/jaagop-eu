@@ -4,7 +4,7 @@
 	import Tag from '$lib/components/ui/Tag.svelte';
 	import { formatDate } from '$lib/utils/date';
 
-	export let post: BlogPost;
+	let { post }: { post: BlogPost } = $props();
 </script>
 
 <Card>

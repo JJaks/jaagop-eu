@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	export let className: string | undefined = undefined;
-	export let meteorCount: number = 8;
+	interface Props {
+		className?: string;
+		meteorCount?: number;
+	}
+
+	let { className, meteorCount = 8 }: Props = $props();
 
 	const MIN_ANIMATION_DURATION = 2.5;
 	const MAX_ANIMATION_DURATION = 10;
@@ -14,7 +18,7 @@
 		animationDelay: string;
 		animationDuration: string;
 		size: string;
-	}> = [];
+	}> = $state([]);
 
 	onMount(() => {
 		meteors = Array.from({ length: meteorCount }, (_, i) => ({

@@ -1,8 +1,14 @@
 <script lang="ts">
-	export let padding: 'sm' | 'md' | 'lg' = 'lg';
-	export let hover = true;
-	let className = '';
-	export { className as class };
+	import type { Snippet } from 'svelte';
+
+	interface Props {
+		padding?: 'sm' | 'md' | 'lg';
+		hover?: boolean;
+		class?: string;
+		children: Snippet;
+	}
+
+	let { padding = 'lg', hover = true, class: className = '', children }: Props = $props();
 
 	const paddingClasses = {
 		sm: 'card-sm',
@@ -12,7 +18,7 @@
 </script>
 
 <div class="card {paddingClasses[padding]} {className}" class:hoverable={hover}>
-	<slot />
+	{@render children()}
 </div>
 
 <style>

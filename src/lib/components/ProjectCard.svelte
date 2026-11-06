@@ -3,8 +3,12 @@
 	import Button from '$lib/components/ui/Button.svelte';
 	import Tag from '$lib/components/ui/Tag.svelte';
 
-	export let project: Project;
-	export let compact = false; // For main page preview vs full projects page
+	interface Props {
+		project: Project;
+		compact?: boolean; // For main page preview vs full projects page
+	}
+
+	let { project, compact = false }: Props = $props();
 </script>
 
 <article class="project-card" class:compact>
