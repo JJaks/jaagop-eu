@@ -265,7 +265,7 @@ export const projects: Project[] = [
 			'Personal movie browsing search engine using TMDB API, Jellyfin and TeliaTV APIs.',
 		image: JaSearchImage,
 		technologies: [
-			'Svelekit',
+			'SvelteKit',
 			'Svelte',
 			'TypeScript',
 			'TailwindCSS',
@@ -276,7 +276,7 @@ export const projects: Project[] = [
 		liveUrl: 'https://search.jaagop.eu/',
 		githubUrl: 'https://github.com/JJaks/jasearch',
 		featured: true,
-		status: 'ongoing',
+		status: 'completed',
 		year: '2025'
 	},
 	{
