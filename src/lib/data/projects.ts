@@ -10,6 +10,8 @@ import JausteenusImage from '#lib/assets/images/projects/jausteenus.webp';
 import GoToAndPlayImage from '#lib/assets/images/projects/gotoandplay.webp';
 import JaSearchImage from '#lib/assets/images/projects/jasearch.webp';
 import StakeReefImage from '#lib/assets/images/projects/stakereef.webp';
+import LagoonImage from '#lib/assets/images/projects/lagoon.webp';
+import LagoonEngineImage from '#lib/assets/images/projects/lagoon_engine.webp';
 
 export interface Project {
 	id: string;
@@ -30,6 +32,50 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+	{
+		id: 'lagoon',
+		title: 'Lagoon',
+		description:
+			'Native Jellyfin client for Apple TV, iPhone and iPad, built with Swift and SwiftUI with Liquid Glass on tvOS 26. Playback runs on Lagoon Engine, my open-source engine that reads the file with FFmpeg and lets the hardware decode what it can, with support for HDR10, Dolby Vision, Atmos passthrough and styled subtitles. Also has SyncPlay for watching together, offline downloads and Seerr search. In public beta on TestFlight.',
+		shortDescription:
+			'Native Jellyfin client for Apple TV, iPhone and iPad. In public beta on TestFlight.',
+		image: LagoonImage,
+		technologies: ['Swift', 'SwiftUI', 'tvOS', 'iOS', 'FFmpeg', 'AVFoundation', 'Jellyfin API'],
+		liveUrl: 'https://lagoon.helop.dev/',
+		githubUrl: 'https://github.com/helop-ou/lagoon',
+		company: {
+			name: 'Helop OÜ',
+			url: 'https://helop.dev/'
+		},
+		featured: true,
+		status: 'ongoing',
+		year: '2026'
+	},
+	{
+		id: 'lagoon-engine',
+		title: 'Lagoon Engine',
+		description:
+			"Open-source playback engine for iOS and tvOS, extracted from Lagoon. It skips AVPlayer: FFmpeg reads the container, VideoToolbox decodes what the hardware supports and libavcodec the rest, and the frames go straight to Apple's sample-buffer renderers. Plays MKV, MP4, AVI, MPEG-TS and Blu-ray and DVD images with HEVC, AV1, VP9, VC-1 and more, plus HDR10, HLG and Dolby Vision, Atmos passthrough and styled subtitles through libass. Ships as a Swift package with its own FFmpeg build.",
+		shortDescription:
+			'Open-source FFmpeg and VideoToolbox playback engine for iOS and tvOS, extracted from Lagoon.',
+		image: LagoonEngineImage,
+		technologies: [
+			'Swift',
+			'FFmpeg',
+			'VideoToolbox',
+			'AVFoundation',
+			'libass',
+			'Swift Package Manager'
+		],
+		githubUrl: 'https://github.com/helop-ou/lagoon-engine',
+		company: {
+			name: 'Helop OÜ',
+			url: 'https://helop.dev/'
+		},
+		featured: true,
+		status: 'ongoing',
+		year: '2026'
+	},
 	{
 		id: 'mactabeauty',
 		title: 'MactaBeauty',
